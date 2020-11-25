@@ -1,3 +1,3 @@
 # sd-tarea2
 
-rayos
+rayos, git
