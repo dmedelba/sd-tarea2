@@ -1,11 +1,14 @@
-# sd-tarea2
+# Laboratorio 2 - Sistemas Distribuidos
 
-Integrantes : David Medel B. 201573548-4
-	      	  Macarana Hidalgo A. 201473608-8
----------------------------------------------------------------------------------------------------
+## Integrantes : 
+- David Medel B. 201573548-4
+- Macarana Hidalgo A. 201473608-8
+
 Se definen las siguientes maquinas:
 
-- 1) dist69--> NameNode 
-- 2) dist70--> DataNode
-- 3) dist71--> DataNode
-- 4) dist72--> DataNode
+	 dist69--> NameNode 
+	 dist70--> DataNode
+	 dist71--> DataNode
+	 dist72--> DataNode
+	 
+## Consideraciones : 
