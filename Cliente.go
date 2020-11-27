@@ -31,13 +31,13 @@ func mostrarLibros() {
 	if err != nil {
 		panic(err)
 	}
-	i := 0
+	i := 1
 	for _, val := range lst {
 		if val.IsDir() {
-			fmt.Printf("[%s]\n", val.Name())
+			log.Printf("[%s]\n", val.Name())
 		} else {
 			s := strconv.Itoa(i)
-			fmt.Println(s + ".- " + val.Name())
+			log.Println(s + ". " + val.Name())
 			i++
 		}
 	}
