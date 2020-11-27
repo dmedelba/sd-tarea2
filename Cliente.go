@@ -19,7 +19,7 @@ const (
 	puerto = "dist70:6000"
 )
 
-func subirLibroCentralizado(conn *grpc.ClientConn) {
+func subirLibro(conn *grpc.ClientConn, tipo string) {
 	//buscamos libro, se selecciona y se descompone
 	//conexion con el datanode
 	nombreLibroSeleccionado := mostrarLibros() //se muestran los libros y se selecciona el libro a subir
@@ -33,6 +33,7 @@ func subirLibroCentralizado(conn *grpc.ClientConn) {
 			Id:          int32(i),
 			NombreLibro: nombreLibroSeleccionado,
 			Cantidad:    int32(cantidadChunks),
+			TipoExclusionMutua: tipo
 		})
 	}
 	log.Printf("OK?")
@@ -182,11 +183,11 @@ func main() {
 			fmt.Scanln(&tipoSubida)
 			switch tipoSubida {
 			case 1:
-				subirLibroCentralizado(conn)
+				subirLibro(conn,"1")
 				//centralizada
 			case 2:
 				//distribuida
-				//subirLibroDistribuido(conn)
+				//subirLibro(conn,"2")
 			}
 		case 2:
 			//descargar libro, conectarse al name node (69)
