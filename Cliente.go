@@ -36,6 +36,7 @@ func main(){
 			//ver biblioteca
 		case 4:
 			//finalizar
+			log.Printf("Salir")
 			break
 		}
 	}
