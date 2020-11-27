@@ -33,8 +33,7 @@ func mostrar_libros(){
 		if val.IsDir() {
 			fmt.Printf("[%s]\n", val.Name())
 		} else {
-			fmt.Println(val.Name())
-			fmt.Println("ca")
+			fmt.Println("Numero"+val.Name())
 		}
 	}
 }
