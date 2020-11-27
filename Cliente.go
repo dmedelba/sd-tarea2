@@ -25,13 +25,14 @@ func subirLibroCentralizado(conn *grpc.ClientConn) {
 	nombreLibroSeleccionado := mostrarLibros() //se muestran los libros y se selecciona el libro a subir
 	cantidadChunks := generarChunks(nombreLibroSeleccionado)
 
+	c := uploader.NewCommsClient(conn)
 	for i := 1; i <= cantidadChunks; i++ {
 		contenidoChunk := abrirChunk(nombreLibroSeleccionado, i)
 		c.SubirLibro(context.Background(), &uploader.Solicitud_SubirLibro{
-			chunk:        contenidoChunk,
-			id:           int32(i),
-			nombre_libro: nombreLibroSeleccionado,
-			cantidad:     int32(cantidadChunks),
+			Chunk:        contenidoChunk,
+			Id:           int32(i),
+			Nombre_libro: nombreLibroSeleccionado,
+			Cantidad:     int32(cantidadChunks),
 		})
 	}
 	log.Printf("OK?")
