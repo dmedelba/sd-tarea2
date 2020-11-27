@@ -8,29 +8,35 @@ import (
 	"math"
 	"os"
 	"strconv"
-
 	"./uploader"
 	//"path/filepath"
-	//"google.golang.org/grpc"
+	"google.golang.org/grpc"
 )
 
 const (
 	puerto = "dist70:6000"
 )
 
-/*
+
 func subirLibroCentralizado(conn *grpc.ClientConn) {
 	//buscamos libro, se selecciona y se descompone
-	var libroSeleccionado int
-	log.Printf("----------------------------------")
-	mostrarLibros()
-	log.Printf("----------------------------------")
-	log.Printf("Seleccione un libro a descargar.")
-	log.Printf("----------------------------------")
-	fmt.Scanln(&libroSeleccionado)
+	//conexion con el datanode
+	nombreLibroSeleccionado := mostrarLibros() //se muestran los libros y se selecciona el libro a subir
+	cantidadChunks := generarChunks(nombreLibroSeleccionado)
+
+	for i := 1; i <= cantidadChunks; i++ {
+		contenidoChunk := abrirChunk(nombreLibroSeleccionado, i)
+		c.SubirLibro(context.Background(), &uploader.Solicitud_SubirLibro{
+			chunk:        contenidoChunk,
+			id:           int32(i),
+			nombre_libro: nombreLibroSeleccionado,
+			cantidad:     int32(cantidadChunks),
+		})
+	}
+	log.Printf("OK?")
 
 }
-
+/*
 func subirLibroDistribuido(conn *grpc.ClientConn) {
 	//buscamos libro, se selecciona y se descompone
 	var libroSeleccionado int
@@ -143,7 +149,11 @@ func mostrarLibros() string {
 
 //Establecemos conexión con logisitica dist70:6000
 
-/*
+
+	
+
+func main() {
+	//crear conexion
 	var conn *grpc.ClientConn
 	conn, e	rr := grpc.Dial(puerto, grpc.WithInsecure())
 	if err != nil {
@@ -151,9 +161,7 @@ func mostrarLibros() string {
 	}
 
 	defer conn.Close()
-*/
-func main() {
-	//crear conexion
+	//seleccionamos que quiere hacer el cliente
 	var seleccion int
 	flag := true
 	for flag {
@@ -174,7 +182,7 @@ func main() {
 			fmt.Scanln(&tipoSubida)
 			switch tipoSubida {
 			case 1:
-				//subirLibroCentralizado(conn)
+				subirLibroCentralizado(conn)
 				//centralizada
 			case 2:
 				//distribuida
@@ -184,21 +192,7 @@ func main() {
 			//descargar libro, conectarse al name node (69)
 		case 3:
 			//ver biblioteca
-			//conexion con el datanode
-			nombreLibroSeleccionado := mostrarLibros()
-			cantidadChunks := generarChunks(nombreLibroSeleccionado)
-			cant := strconv.Itoa(cantidadChunks)
-			log.Printf(cant)
-			for i := 1; i <= cantidadChunks; i++ {
-				contenidoChunk := abrirChunk(nombreLibroSeleccionado, i)
-				c.SubirLibro(context.Background(), &uploader.Solicitud_SubirLibro{
-					chunk:        contenidoChunk,
-					id:           int32(i),
-					nombre_libro: nombreLibroSeleccionado,
-					cantidad:     int32(cantidadChunks),
-				})
-			}
-			//ver biblioteca
+			
 		case 4:
 			//finalizar
 			log.Printf("Sesión finalizada. Muchas gracias!")
