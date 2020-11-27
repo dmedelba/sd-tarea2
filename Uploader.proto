@@ -1,0 +1,21 @@
+syntax = "proto3";
+package uploader;
+
+service Uploader {
+    rpc SubirLibro(Solicitud_SubirLibro) returns (Respuesta_SubirLibro) {}
+}
+
+//solicita subir un libro
+message Solicitud_SubirLibro {
+    bytes chunk = 1;
+    int32 id = 2;
+    string nombre_libro = 3;
+    int32 cantidad = 4;
+}
+
+//respuesta del dataNode
+message Respuesta_SubirLibro {
+  int32 respuesta = 1;
+}
+
+

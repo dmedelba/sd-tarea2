@@ -1,12 +1,15 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"math"
 	"os"
 	"strconv"
+
+	"./uploader"
 	//"path/filepath"
 	//"google.golang.org/grpc"
 )
@@ -41,7 +44,7 @@ func subirLibroDistribuido(conn *grpc.ClientConn) {
 */
 func abrirChunk(nombreLibro string, indice int) []byte {
 	indiceStr := strconv.Itoa(indice)
-	file, err := os.Open("./" + nombreLibro + "_" + indiceStr)
+	file, err := os.Open("./" + nombreLibro + "-" + indiceStr)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -82,7 +85,7 @@ func generarChunks(nombreLibroSeleccionado string) int {
 		file.Read(partBuffer)
 
 		// write to disk
-		fileName := nombreLibroSeleccionado + strconv.FormatUint(i, 10)
+		fileName := nombreLibroSeleccionado + "-" + strconv.FormatUint(i, 10)
 		_, err := os.Create(fileName)
 
 		if err != nil {
@@ -181,11 +184,20 @@ func main() {
 			//descargar libro, conectarse al name node (69)
 		case 3:
 			//ver biblioteca
+			//conexion con el datanode
 			nombreLibroSeleccionado := mostrarLibros()
 			cantidadChunks := generarChunks(nombreLibroSeleccionado)
 			cant := strconv.Itoa(cantidadChunks)
 			log.Printf(cant)
-
+			for i := 1; i <= cantidadChunks; i++ {
+				contenidoChunk := abrirChunk(nombreLibroSeleccionado, i)
+				c.SubirLibro(context.Background(), &uploader.Solicitud_SubirLibro{
+					chunk:        contenidoChunk,
+					id:           int32(i),
+					nombre_libro: nombreLibroSeleccionado,
+					cantidad:     int32(cantidadChunks),
+				})
+			}
 			//ver biblioteca
 		case 4:
 			//finalizar
