@@ -8,7 +8,9 @@ import (
 	"math"
 	"os"
 	"strconv"
+
 	"./uploader"
+
 	//"path/filepath"
 	"google.golang.org/grpc"
 )
@@ -16,7 +18,6 @@ import (
 const (
 	puerto = "dist70:6000"
 )
-
 
 func subirLibroCentralizado(conn *grpc.ClientConn) {
 	//buscamos libro, se selecciona y se descompone
@@ -36,6 +37,7 @@ func subirLibroCentralizado(conn *grpc.ClientConn) {
 	log.Printf("OK?")
 
 }
+
 /*
 func subirLibroDistribuido(conn *grpc.ClientConn) {
 	//buscamos libro, se selecciona y se descompone
@@ -149,13 +151,10 @@ func mostrarLibros() string {
 
 //Establecemos conexión con logisitica dist70:6000
 
-
-	
-
 func main() {
 	//crear conexion
 	var conn *grpc.ClientConn
-	conn, e	rr := grpc.Dial(puerto, grpc.WithInsecure())
+	conn, err := grpc.Dial(puerto, grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("No se pudo establecer la conexión. ERROR: %v", err)
 	}
@@ -192,7 +191,7 @@ func main() {
 			//descargar libro, conectarse al name node (69)
 		case 3:
 			//ver biblioteca
-			
+
 		case 4:
 			//finalizar
 			log.Printf("Sesión finalizada. Muchas gracias!")
