@@ -26,7 +26,7 @@ func subirLibro(conn *grpc.ClientConn, tipo string) {
 	cantidadChunks := generarChunks(nombreLibroSeleccionado)
 
 	c := uploader.NewUploaderClient(conn)
-	for i := 1; i <= cantidadChunks; i++ {
+	for i := 0; i < cantidadChunks; i++ {
 		contenidoChunk := abrirChunk(nombreLibroSeleccionado, i)
 		c.SubirLibro(context.Background(), &uploader.Solicitud_SubirLibro{
 			Chunk:              contenidoChunk,
