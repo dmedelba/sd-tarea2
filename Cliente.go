@@ -34,10 +34,10 @@ func mostrarLibros() {
 	i := 1
 	for _, val := range lst {
 		if val.IsDir() {
-			log.Printf("[%s]\n", val.Name())
+			fmt.Printf("[%s]\n", val.Name())
 		} else {
 			s := strconv.Itoa(i)
-			log.Println(s + ". " + val.Name())
+			fmt.Println(s + ". " + val.Name())
 			i++
 		}
 	}
@@ -59,20 +59,20 @@ func main() {
 	var seleccion int
 	flag := true
 	for flag {
-		log.Printf("[Cliente] Ingrese opición a realizar:")
-		log.Printf("1. Subir libro")
-		log.Printf("2. Descargar libro")
-		log.Printf("3. Ver biblioteca (libros descargados)")
-		log.Printf("4. Finalizar")
+		fmt.Printf("[Cliente] Ingrese opición a realizar:")
+		fmt.Printf("1. Subir libro")
+		fmt.Printf("2. Descargar libro")
+		fmt.Printf("3. Ver biblioteca (libros descargados)")
+		fmt.Printf("4. Finalizar")
 		fmt.Scanln(&seleccion)
 
 		var tipoSubida int
 		switch seleccion {
 		case 1:
 			//subir libro, puede subir centralizado o distribuido
-			log.Printf("[Cliente] Seleccione el tipo de subida a realizar:")
-			log.Printf("1. Subida Centralizada")
-			log.Printf("2. Subida Distribuida")
+			fmt.Printf("[Cliente] Seleccione el tipo de subida a realizar:")
+			fmt.Printf("1. Subida Centralizada")
+			fmt.Printf("2. Subida Distribuida")
 			fmt.Scanln(&tipoSubida)
 			switch tipoSubida {
 			case 1:
