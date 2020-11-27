@@ -12,6 +12,7 @@ message Solicitud_SubirLibro {
     int32 id = 2;
     string nombre_libro = 3;
     int32 cantidad = 4;
+    string tipoExclusionMutua = 5;
 }
 
 //respuesta del dataNode
