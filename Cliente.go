@@ -34,6 +34,7 @@ func mostrar_libros(){
 			fmt.Printf("[%s]\n", val.Name())
 		} else {
 			fmt.Println(val.Name())
+			fmt.Println("ca")
 		}
 	}
 }
