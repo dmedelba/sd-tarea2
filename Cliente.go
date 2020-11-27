@@ -169,7 +169,8 @@ func main() {
 			nombreLibroSeleccionado := mostrarLibros()
 			cantidadChunks := generarChunks(nombreLibroSeleccionado)
 			s := strconv.Itoa(cantidadChunks)
-			fmt.Printf(s)
+
+			log.Printf(s)
 			log.Printf(nombreLibroSeleccionado)
 			//ver biblioteca
 		case 4:
