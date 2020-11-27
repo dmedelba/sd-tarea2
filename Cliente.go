@@ -39,6 +39,20 @@ func subirLibroDistribuido(conn *grpc.ClientConn) {
 	fmt.Scanln(&libroSeleccionado)
 }
 */
+func abrirChunk(nombreLibro string, indice int) []byte {
+	indiceStr := strconv.Itoa(indice)
+	file, err := os.Open("./" + nombreLibro + "_" + indiceStr)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	content, err := ioutil.ReadAll(file)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return content
+}
+
 func generarChunks(nombreLibroSeleccionado string) int {
 	//funcion obtenida de https://www.socketloop.com/tutorials/golang-recombine-chunked-files-example
 	fileToBeChunked := "./libros/" + nombreLibroSeleccionado
@@ -68,7 +82,7 @@ func generarChunks(nombreLibroSeleccionado string) int {
 		file.Read(partBuffer)
 
 		// write to disk
-		fileName := "bigfile_" + strconv.FormatUint(i, 10)
+		fileName := nombreLibroSeleccionado + strconv.FormatUint(i, 10)
 		_, err := os.Create(fileName)
 
 		if err != nil {
@@ -166,11 +180,12 @@ func main() {
 		case 2:
 			//descargar libro, conectarse al name node (69)
 		case 3:
+			//ver biblioteca
 			nombreLibroSeleccionado := mostrarLibros()
 			cantidadChunks := generarChunks(nombreLibroSeleccionado)
-			s := strconv.Itoa(cantidadChunks)
-			log.Printf("AQUI")
-			log.Printf(s)
+			cant := strconv.Itoa(cantidadChunks)
+			log.Printf(cant)
+
 			//ver biblioteca
 		case 4:
 			//finalizar
