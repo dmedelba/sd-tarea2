@@ -29,11 +29,11 @@ func subirLibro(conn *grpc.ClientConn, tipo string) {
 	for i := 1; i <= cantidadChunks; i++ {
 		contenidoChunk := abrirChunk(nombreLibroSeleccionado, i)
 		c.SubirLibro(context.Background(), &uploader.Solicitud_SubirLibro{
-			Chunk:       contenidoChunk,
-			Id:          int32(i),
-			NombreLibro: nombreLibroSeleccionado,
-			Cantidad:    int32(cantidadChunks),
-			TipoExclusionMutua: tipo
+			Chunk:              contenidoChunk,
+			Id:                 int32(i),
+			NombreLibro:        nombreLibroSeleccionado,
+			Cantidad:           int32(cantidadChunks),
+			TipoExclusionMutua: tipo,
 		})
 	}
 	log.Printf("OK?")
@@ -183,7 +183,7 @@ func main() {
 			fmt.Scanln(&tipoSubida)
 			switch tipoSubida {
 			case 1:
-				subirLibro(conn,"1")
+				subirLibro(conn, "1")
 				//centralizada
 			case 2:
 				//distribuida
