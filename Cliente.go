@@ -15,17 +15,34 @@ const (
 )
 
 /*
-func subirLibroCentralizado(conn *grpc.ClientConn){
+func subirLibroCentralizado(conn *grpc.ClientConn) {
 	//buscamos libro, se selecciona y se descompone
+	var libroSeleccionado int
+	log.Printf("----------------------------------")
+	mostrarLibros()
+	log.Printf("----------------------------------")
+	log.Printf("Seleccione un libro a descargar.")
+	log.Printf("----------------------------------")
+	fmt.Scanln(&libroSeleccionado)
 
 }
 
-func subirLibroDistribuido(conn *grpc.ClientConn){
+func subirLibroDistribuido(conn *grpc.ClientConn) {
 	//buscamos libro, se selecciona y se descompone
+	var libroSeleccionado int
+	log.Printf("----------------------------------")
+	mostrarLibros()
+	log.Printf("----------------------------------")
+	log.Printf("Seleccione un libro a descargar.")
+	log.Printf("----------------------------------")
+	fmt.Scanln(&libroSeleccionado)
 }
 */
 func mostrarLibros() {
 	//presentamos al usuario los libros para que seleccione
+	log.Printf("----------------------------------")
+	log.Printf("Seleccione un libro a descargar.")
+	log.Printf("----------------------------------")
 	path := "./libros/"
 	lst, err := ioutil.ReadDir(path)
 	if err != nil {
@@ -39,6 +56,22 @@ func mostrarLibros() {
 			s := strconv.Itoa(i)
 			log.Println(s + ". " + val.Name())
 			i++
+		}
+	}
+	var libroSeleccionado int
+	log.Printf("----------------------------------")
+	fmt.Scanln(&libroSeleccionado)
+
+	//encontramos el libro seleccionado
+	indice := 1
+	for _, val := range lst {
+		if val.IsDir() {
+			log.Printf("[%s]\n", val.Name())
+		} else {
+			if libroSeleccionado == indice {
+				log.Printf(val.Name())
+			}
+			indice++
 		}
 	}
 }
@@ -94,3 +127,6 @@ func main() {
 		}
 	}
 }
+
+//Cliente y datanode es con un datanode aleatorio. [randint=>0-3]
+//Si siempre es el mismo nodo, nunca va a existir condición de carrera en el log del name node.
