@@ -152,7 +152,6 @@ func mostrarLibros() string {
 }
 
 //Establecemos conexión con logisitica dist70:6000
-
 func main() {
 	//crear conexion
 	var conn *grpc.ClientConn
