@@ -8,7 +8,8 @@ import (
 func main(){
 	//crear conexion
 	var seleccion int
-	for true{
+	flag := true
+	for flag{
 		log.Printf("[Cliente] Ingrese opición a realizar:")
 		log.Printf("1. Subir libro")
 		log.Printf("2. Descargar libro")
@@ -37,7 +38,7 @@ func main(){
 		case 4:
 			//finalizar
 			log.Printf("Salir")
-			break
+			flag = false
 		}
 	}
 }
