@@ -35,21 +35,21 @@ func mostrar_libros(){
 		} else {
 			fmt.Println(val.Name())
 		}
+	}
 }
-
-func main(){
-	//crear conexion
-	//Establecemos conexión con logisitica dist70:6000
+//Establecemos conexión con logisitica dist70:6000
 
 	/*
 	var conn *grpc.ClientConn
-	conn, err := grpc.Dial(puerto, grpc.WithInsecure())
+	conn, e	rr := grpc.Dial(puerto, grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("No se pudo establecer la conexión. ERROR: %v", err)
 	}
-	*/
+	
 	defer conn.Close()
-
+	*/
+func main(){
+	//crear conexion
 	var seleccion int
 	flag := true
 	for flag{
