@@ -55,7 +55,7 @@ func subirLibroDistribuido(conn *grpc.ClientConn) {
 */
 func abrirChunk(nombreLibro string, indice int) []byte {
 	indiceStr := strconv.Itoa(indice)
-	file, err := os.Open("./" + nombreLibro + "-" + indiceStr)
+	file, err := os.Open("./chunks_cliente/" + nombreLibro + "-" + indiceStr)
 	if err != nil {
 		log.Fatal(err)
 	}
