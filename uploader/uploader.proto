@@ -27,5 +27,5 @@ message Propuesta_Generada{
 }
 
 message Respuesta_Propuesta {
-  int32 respuesta = 1;
+  string respuesta = 1;
 }
