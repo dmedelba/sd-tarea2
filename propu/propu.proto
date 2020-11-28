@@ -1,0 +1,16 @@
+syntax = "proto3";
+package propu;
+
+service Propu {
+    rpc EnviarPropuesta(Propuesta_Generada) returns (Respuesta_Propuesta) {}
+    
+}
+
+message Propuesta_Generada{
+  repeated int32 ListaPropuesta = 1;
+
+}
+
+message Respuesta_Propuesta {
+  string respuesta = 1;
+}

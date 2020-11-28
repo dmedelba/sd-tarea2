@@ -6,6 +6,7 @@ import (
 	"log"
 	"net"
 
+	"./propu"
 	"./uploader"
 	"google.golang.org/grpc"
 )
@@ -13,7 +14,7 @@ import (
 type server struct {
 }
 
-func (s *server) EnviarPropuesta(ctx context.Context, request *uploader.Propuesta_Generada) (*uploader.Respuesta_Propuesta, error) {
+func (s *server) EnviarPropuesta(ctx context.Context, request *propu.Propuesta_Generada) (*propu.Respuesta_Propuesta, error) {
 	listaPropuesta := request.ListaPropuesta
 	fmt.Println(listaPropuesta)
 }

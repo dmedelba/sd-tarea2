@@ -11,6 +11,8 @@ import (
 	"time"
 
 	"./uploader"
+
+	"./propu"
 	"google.golang.org/grpc"
 )
 
@@ -65,7 +67,7 @@ func enviarPropuesta(propuesta []int32, tipoExclusion string) {
 		defer conn.Close()
 
 		c := uploader.NewUploaderClient(conn)
-		decision, _ := c.EnviarPropuesta(context.Background(), &uploader.Propuesta_Generada{
+		decision, _ := c.EnviarPropuesta(context.Background(), &propu.Propuesta_Generada{
 			ListaPropuesta: propuesta,
 		})
 

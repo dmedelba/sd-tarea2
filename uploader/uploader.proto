@@ -2,9 +2,7 @@ syntax = "proto3";
 package uploader;
 
 service Uploader {
-    rpc SubirLibro(Solicitud_SubirLibro) returns (Respuesta_SubirLibro) {}
-    rpc EnviarPropuesta(Propuesta_Generada) returns (Respuesta_Propuesta) {}
-    
+    rpc SubirLibro(Solicitud_SubirLibro) returns (Respuesta_SubirLibro) {}    
 }
 
 //solicita subir un libro
@@ -21,11 +19,3 @@ message Respuesta_SubirLibro {
   int32 respuesta = 1;
 }
 
-message Propuesta_Generada{
-  repeated int32 ListaPropuesta = 1;
-
-}
-
-message Respuesta_Propuesta {
-  string respuesta = 1;
-}
