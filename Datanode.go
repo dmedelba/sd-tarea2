@@ -31,7 +31,7 @@ func (s *server) SubirLibro(ctx context.Context, request *uploader.Solicitud_Sub
 	}
 	//a la funcion pasar el tipo de exlusión mutua
 	propuestaInicial := crearPropuestaInicial(request.NombreLibro, int(request.Cantidad))
-	decision := enviarPropuesta(propuestaInicial, request.TipoExclusionMutua)
+	enviarPropuesta(propuestaInicial, request.TipoExclusionMutua)
 
 	log.Printf("Propuesta enviada")
 	return &uploader.Respuesta_SubirLibro{Respuesta: int32(0)}, nil
@@ -86,14 +86,13 @@ func enviarPropuesta(propuesta []int32, tipoExclusion string) {
 	*/
 
 	//falta el else en caso de que sea distribuida
-	return decision
 
 }
 
 func generarNuevaPropuesta(propuestaMaquinas []int32) []int32 {
 	rand.Seed(time.Now().UnixNano())
 
-	rand.Shuffle(len(propuestaMaquinas), func(i, j int32) {
+	rand.Shuffle(len(propuestaMaquinas), func(i, j int) {
 		propuestaMaquinas[i], propuestaMaquinas[j] = propuestaMaquinas[j], propuestaMaquinas[i]
 	})
 	return propuestaMaquinas
