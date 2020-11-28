@@ -18,7 +18,7 @@ func (s *server) SubirLibro(ctx context.Context, request *uploader.Solicitud_Sub
 	log.Printf("recibi la wea")
 
 	//creo la carpeta para guardar chunks del libro
-	idChunk := strconv.Itoa(request.Id)
+	idChunk := strconv.Itoa(int(request.Id))
 	fileName := "./libros_subidos/" + request.NombreLibro[0:15] + "_" + idChunk
 	file, errr := os.Create(fileName)
 
