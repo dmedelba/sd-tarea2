@@ -7,7 +7,6 @@ import (
 	"net"
 
 	"./propu"
-	"./uploader"
 	"google.golang.org/grpc"
 )
 
@@ -26,7 +25,7 @@ func main() {
 		log.Fatalf("Error al tratar de escuchar: %v", err)
 	}
 	s := grpc.NewServer()
-	uploader.RegisterUploaderServer(s, &server{})
+	propu.RegisterPropuServer(s, &server{})
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %s", err)
 	}
