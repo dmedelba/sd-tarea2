@@ -17,8 +17,9 @@ func (s *server) SubirLibro(ctx context.Context, request *uploader.Solicitud_Sub
 	log.Printf("recibi la wea")
 
 	//creo la carpeta para guardar chunks del libro
+
 	if _, err := os.Stat(request.NombreLibro); os.IsNotExist(err) {
-		err = os.Mkdir(request.NombreLibro, 0755)
+		err = os.Mkdir("./chunks/"+request.NombreLibro, 0755)
 		if err != nil {
 			panic(err)
 		}
