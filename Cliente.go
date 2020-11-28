@@ -40,26 +40,12 @@ func subirLibro(conn *grpc.ClientConn, tipo string) {
 
 }
 
-/*
-func subirLibroDistribuido(conn *grpc.ClientConn) {
-	//buscamos libro, se selecciona y se descompone
-	var libroSeleccionado int
-	log.Printf("----------------------------------")
-	mostrarLibros()
-	log.Printf("----------------------------------")
-	log.Printf("Seleccione un libro a descargar.")
-	log.Printf("----------------------------------")
-	fmt.Scanln(&libroSeleccionado)
-
-}
-*/
 func abrirChunk(nombreLibro string, indice int) []byte {
 	indiceStr := strconv.Itoa(indice)
 	file, err := os.Open("./chunks_cliente/" + nombreLibro + "-" + indiceStr)
 	if err != nil {
 		log.Fatal(err)
 	}
-
 	content, err := ioutil.ReadAll(file)
 	if err != nil {
 		log.Fatal(err)

@@ -7,7 +7,8 @@ import (
 	"net"
 	"os"
 	"strconv"
-
+	"math/rand"
+	"time"
 	"./uploader"
 	"google.golang.org/grpc"
 )
@@ -20,35 +21,94 @@ func (s *server) SubirLibro(ctx context.Context, request *uploader.Solicitud_Sub
 
 	//creo la carpeta para guardar chunks del libro
 	idChunk := strconv.Itoa(int(request.Id))
-	fileName := "./libros_subidos/" + request.NombreLibro[0:15] + "_" + idChunk
+	fileName := "./libros_subidos/" + request.NombreLibro + "-" + idChunk
 	_, err := os.Create(fileName)
 
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-
-	log.Printf(request.NombreLibro)
+	//a la funcion pasar el tipo de exlusión mutua
+	propuestaInicial := crearPropuestaInicial(request.NombreLibro, int(request.Cantidad))
+	decision:= enviarPropuesta( propuestaInicial, request.TipoExclusionMutua)
+	
+	log.Printf("Propuesta enviada")
 	return &uploader.Respuesta_SubirLibro{Respuesta: int32(0)}, nil
 }
 
-/*
-func EnviarPropuesta(conn *grpc.ClientConn) {
-
-	if Cantidad%3 == 0 {
-		totalpormaquina = Cantidad / 3
-
-		// propuesta para maquina x
-		for i := 0; i < totalpormaquina; i++ {
-			// sacamos de la carpeta el chunk con nombre = monbre libro
-			// y id == a i
-			// y le asignamos la maquina x
-
-		}
-
+func crearPropuestaInicial(nombreLibro string, cantidadChunks int)([] int32){
+	//creamos la propuesta inicial simple
+	var propuestaMaquinas [cantidadChunks] int32
+	var indice = 0
+	var maquina = 70
+	for i := 0; i < cantidadChunks; i++ {
+		maquina += indice
+		propuestaMaquinas[i] = int32(maquina)
+		indice++
+		if (indice == 3){
+			indice =0
+			maquina =70
+		}		
 	}
+	return propuestaMaquinas
 }
-*/
+func enviarPropuesta(propuesta []int32, tipoExclusion string)(string)) {
+	//enviar propuesta
+	if (tipoExclusion == "1"){
+		//es centralizada, preguntar al name node
+		var conn *grpc.ClientConn
+		conn, err := grpc.Dial("dist69:6000", grpc.WithInsecure())
+		if err != nil {
+			log.Fatalf("Error al conectarse con la maquina 69 [Name node]. %s", err)
+		}
+		defer conn.Close()
+
+		c := uploader.NewUploaderClient(conn)
+		decision, _ := c.EnviarPropuesta(context.Background(), &uploader.Propuesta_Generada{
+			ListaPropuesta:  propuesta,
+		})
+		//aprobado o rechazo
+		return decision
+	}
+	else{
+		/*
+		//rechazo, llama a la funcion que crea nueva propuesta y hace recursividad
+		propuestaInicial := generarNuevaPropuesta(propuestaInicial)
+		decision:= enviarPropuesta( propuestaInicial, request.TipoExclusionMutua)
+		if (decision == "1"){
+			//propuesta aceptada
+			break
+		}
+		*/
+	}
+	//falta el else en caso de que sea distribuida
+	return decision
+
+}
+
+func generarNuevaPropuesta(propuestaMaquinas []int32)([] int32){
+	rand.Seed(time.Now().UnixNano())
+
+    rand.Shuffle(len(propuestaMaquinas), func(i, j int32) {
+        propuestaMaquinas[i], propuestaMaquinas[j] = propuestaMaquinas[j], propuestaMaquinas[i]
+	})
+	return propuestaMaquinas
+}
+
+func propuestaToString(propuestaMaquinas []int32, nombreLibro string)(string){
+	cantidadChunks := len(propuestaMaquinas)
+	cChunks_str := strconv.Itoa(cantidadChunks)
+	propuesta := nombreLibro + " " + cChunks_str + "\n"
+	
+	for i := 0; i < cantidadChunks; i++ {
+		chunk := strconv.Itoa(i)
+		maquina := propuestaMaquinas[i]
+		maquina_str := strconv.Itoa(int(maquina))
+		propuesta += nombreLibro + "-" + chunk + " dist" + maquina_str +"\n"
+	}
+	return propuesta
+}
+
 
 func main() {
 	log.Printf("[Datanode]")
