@@ -5,21 +5,12 @@ import (
 	"log"
 	"net"
 	"os"
-	"path/filepath"
 
 	"./uploader"
 	"google.golang.org/grpc"
 )
 
 type server struct {
-}
-
-type chank struct {
-	Chunk              byte
-	Id                 int32
-	NombreLibro        string
-	Cantidad           int32
-	TipoExclusionMutua string
 }
 
 func (s *server) SubirLibro(ctx context.Context, request *uploader.Solicitud_SubirLibro) (*uploader.Respuesta_SubirLibro, error) {
@@ -31,23 +22,6 @@ func (s *server) SubirLibro(ctx context.Context, request *uploader.Solicitud_Sub
 		if err != nil {
 			panic(err)
 		}
-	}
-
-	// Guardo los chunks en la carperta recien creada
-	for i := 0; i < int(request.Cantidad); i++ {
-		chunksito := chank{
-			Chunk:              request.Chunk,
-			Id:                 request.Id,
-			NombreLibro:        request.NombreLibro,
-			Cantidad:           request.Cantidad,
-			TipoExclusionMutua: request.TipoExclusionMutua,
-		}
-
-		dst, err := os.Create(filepath.Join(request.NombreLibro, filepath.Base(chunksito.NombreLibro+"-"+i))) // dir is directory where you want to save file.
-		if err != nil {
-			checkErr(err)
-		}
-		defer dst.Close()
 	}
 
 	log.Printf(request.NombreLibro)
