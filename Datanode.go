@@ -53,7 +53,7 @@ func crearPropuestaInicial(nombreLibro string, cantidadChunks int) []int32 {
 	}
 	return propuestaMaquinas
 }
-func enviarPropuesta(propuesta []int32, tipoExclusion string) string {
+func enviarPropuesta(propuesta []int32, tipoExclusion string) {
 	//enviar propuesta
 	if tipoExclusion == "1" {
 		//es centralizada, preguntar al name node
@@ -68,8 +68,9 @@ func enviarPropuesta(propuesta []int32, tipoExclusion string) string {
 		decision, _ := c.EnviarPropuesta(context.Background(), &uploader.Propuesta_Generada{
 			ListaPropuesta: propuesta,
 		})
+
 		//aprobado o rechazo
-		return decision
+		log.Printf("hola")
 	}
 	/*
 		else{
