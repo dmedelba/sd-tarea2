@@ -3,6 +3,7 @@ package uploader;
 
 service Uploader {
     rpc SubirLibro(Solicitud_SubirLibro) returns (Respuesta_SubirLibro) {}
+    rpc EnviarPropuesta(Propuesta_Generada) returns (Respuesta_Propuesta) {}
     
 }
 
@@ -20,4 +21,13 @@ message Respuesta_SubirLibro {
   int32 respuesta = 1;
 }
 
+message Propuesta_Generada{
+  bytes chunk = 1;
+  int32 id = 2;
+  string nombre_libro = 3; 
+  string maquina = 4;
+}
 
+message Respuesta_Propuesta {
+  int32 respuesta = 1;
+}
