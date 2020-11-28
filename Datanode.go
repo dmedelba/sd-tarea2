@@ -4,11 +4,12 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"math/rand"
 	"net"
 	"os"
 	"strconv"
-	"math/rand"
 	"time"
+
 	"./uploader"
 	"google.golang.org/grpc"
 )
@@ -30,31 +31,31 @@ func (s *server) SubirLibro(ctx context.Context, request *uploader.Solicitud_Sub
 	}
 	//a la funcion pasar el tipo de exlusión mutua
 	propuestaInicial := crearPropuestaInicial(request.NombreLibro, int(request.Cantidad))
-	decision:= enviarPropuesta( propuestaInicial, request.TipoExclusionMutua)
-	
+	decision := enviarPropuesta(propuestaInicial, request.TipoExclusionMutua)
+
 	log.Printf("Propuesta enviada")
 	return &uploader.Respuesta_SubirLibro{Respuesta: int32(0)}, nil
 }
 
-func crearPropuestaInicial(nombreLibro string, cantidadChunks int)([] int32){
+func crearPropuestaInicial(nombreLibro string, cantidadChunks int) []int32 {
 	//creamos la propuesta inicial simple
-	var propuestaMaquinas [cantidadChunks] int32
+	var propuestaMaquinas [cantidadChunks]int32
 	var indice = 0
 	var maquina = 70
 	for i := 0; i < cantidadChunks; i++ {
 		maquina += indice
 		propuestaMaquinas[i] = int32(maquina)
 		indice++
-		if (indice == 3){
-			indice =0
-			maquina =70
-		}		
+		if indice == 3 {
+			indice = 0
+			maquina = 70
+		}
 	}
 	return propuestaMaquinas
 }
-func enviarPropuesta(propuesta []int32, tipoExclusion string)(string)) {
+func enviarPropuesta(propuesta []int32, tipoExclusion string) string {
 	//enviar propuesta
-	if (tipoExclusion == "1"){
+	if tipoExclusion == "1" {
 		//es centralizada, preguntar al name node
 		var conn *grpc.ClientConn
 		conn, err := grpc.Dial("dist69:6000", grpc.WithInsecure())
@@ -65,22 +66,22 @@ func enviarPropuesta(propuesta []int32, tipoExclusion string)(string)) {
 
 		c := uploader.NewUploaderClient(conn)
 		decision, _ := c.EnviarPropuesta(context.Background(), &uploader.Propuesta_Generada{
-			ListaPropuesta:  propuesta,
+			ListaPropuesta: propuesta,
 		})
 		//aprobado o rechazo
 		return decision
 	}
 	/*
-	else{
+		else{
 
-		//rechazo, llama a la funcion que crea nueva propuesta y hace recursividad
-		propuestaInicial := generarNuevaPropuesta(propuestaInicial)
-		decision:= enviarPropuesta( propuestaInicial, request.TipoExclusionMutua)
-		if (decision == "1"){
-			//propuesta aceptada
-			break
-		}		
-	}
+			//rechazo, llama a la funcion que crea nueva propuesta y hace recursividad
+			propuestaInicial := generarNuevaPropuesta(propuestaInicial)
+			decision:= enviarPropuesta( propuestaInicial, request.TipoExclusionMutua)
+			if (decision == "1"){
+				//propuesta aceptada
+				break
+			}
+		}
 	*/
 
 	//falta el else en caso de que sea distribuida
@@ -88,29 +89,28 @@ func enviarPropuesta(propuesta []int32, tipoExclusion string)(string)) {
 
 }
 
-func generarNuevaPropuesta(propuestaMaquinas []int32)([] int32){
+func generarNuevaPropuesta(propuestaMaquinas []int32) []int32 {
 	rand.Seed(time.Now().UnixNano())
 
-    rand.Shuffle(len(propuestaMaquinas), func(i, j int32) {
-        propuestaMaquinas[i], propuestaMaquinas[j] = propuestaMaquinas[j], propuestaMaquinas[i]
+	rand.Shuffle(len(propuestaMaquinas), func(i, j int32) {
+		propuestaMaquinas[i], propuestaMaquinas[j] = propuestaMaquinas[j], propuestaMaquinas[i]
 	})
 	return propuestaMaquinas
 }
 
-func propuestaToString(propuestaMaquinas []int32, nombreLibro string)(string){
+func propuestaToString(propuestaMaquinas []int32, nombreLibro string) string {
 	cantidadChunks := len(propuestaMaquinas)
 	cChunks_str := strconv.Itoa(cantidadChunks)
 	propuesta := nombreLibro + " " + cChunks_str + "\n"
-	
+
 	for i := 0; i < cantidadChunks; i++ {
 		chunk := strconv.Itoa(i)
 		maquina := propuestaMaquinas[i]
 		maquina_str := strconv.Itoa(int(maquina))
-		propuesta += nombreLibro + "-" + chunk + " dist" + maquina_str +"\n"
+		propuesta += nombreLibro + "-" + chunk + " dist" + maquina_str + "\n"
 	}
 	return propuesta
 }
-
 
 func main() {
 	log.Printf("[Datanode]")
