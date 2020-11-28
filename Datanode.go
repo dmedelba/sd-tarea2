@@ -5,6 +5,7 @@ import (
 	"log"
 	"net"
 	"os"
+	"strconv"
 
 	"./uploader"
 	"google.golang.org/grpc"
@@ -17,13 +18,9 @@ func (s *server) SubirLibro(ctx context.Context, request *uploader.Solicitud_Sub
 	log.Printf("recibi la wea")
 
 	//creo la carpeta para guardar chunks del libro
-
-	if _, err := os.Stat(request.NombreLibro); os.IsNotExist(err) {
-		err = os.Mkdir("./libros_subidos/"+request.NombreLibro[0:10], 0755)
-		if err != nil {
-			panic(err)
-		}
-	}
+	idChunk := strconv.Itoa(request.Id)
+	fileName = "./libros_subidos/" + request.NombreLibro[0:15] + "_" + idChunk
+	file, errr := os.Create(fileName)
 
 	log.Printf(request.NombreLibro)
 	return &uploader.Respuesta_SubirLibro{Respuesta: int32(0)}, nil

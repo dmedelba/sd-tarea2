@@ -96,7 +96,7 @@ func generarChunks(nombreLibroSeleccionado string) int {
 		file.Read(partBuffer)
 
 		// write to disk
-		fileName := nombreLibroSeleccionado + "-" + strconv.FormatUint(i, 10)
+		fileName := "./chunks_cliente/" + nombreLibroSeleccionado + "-" + strconv.FormatUint(i, 10)
 		_, err := os.Create(fileName)
 
 		if err != nil {
