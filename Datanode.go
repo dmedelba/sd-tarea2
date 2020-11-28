@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"net"
 	"os"
@@ -20,7 +21,12 @@ func (s *server) SubirLibro(ctx context.Context, request *uploader.Solicitud_Sub
 	//creo la carpeta para guardar chunks del libro
 	idChunk := strconv.Itoa(int(request.Id))
 	fileName := "./libros_subidos/" + request.NombreLibro[0:15] + "_" + idChunk
-	file, errr := os.Create(fileName)
+	_, errr := os.Create(fileName)
+
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
 
 	log.Printf(request.NombreLibro)
 	return &uploader.Respuesta_SubirLibro{Respuesta: int32(0)}, nil
