@@ -70,17 +70,19 @@ func enviarPropuesta(propuesta []int32, tipoExclusion string)(string)) {
 		//aprobado o rechazo
 		return decision
 	}
+	/*
 	else{
-		/*
+
 		//rechazo, llama a la funcion que crea nueva propuesta y hace recursividad
 		propuestaInicial := generarNuevaPropuesta(propuestaInicial)
 		decision:= enviarPropuesta( propuestaInicial, request.TipoExclusionMutua)
 		if (decision == "1"){
 			//propuesta aceptada
 			break
-		}
-		*/
+		}		
 	}
+	*/
+
 	//falta el else en caso de que sea distribuida
 	return decision
 
