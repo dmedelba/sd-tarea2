@@ -34,7 +34,7 @@ func (s *server) SubirLibro(ctx context.Context, request *uploader.Solicitud_Sub
 	}
 
 	// Guardo los chunks en la carperta recien creada
-	for i := 0; i < request.Cantidad; i++ {
+	for i := 0; i < int(request.Cantidad); i++ {
 		chunksito := chank{
 			Chunk:              request.Chunk,
 			Id:                 request.Id,
@@ -80,7 +80,7 @@ func main() {
 	}
 	s := grpc.NewServer()
 	uploader.RegisterUploaderServer(s, &server{})
-	if err := grpcServer.Serve(lis); err != nil {
+	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %s", err)
 	}
 }
