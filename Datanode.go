@@ -66,7 +66,7 @@ func enviarPropuesta(propuesta []int32, tipoExclusion string) {
 		}
 		defer conn.Close()
 
-		c := uploader.NewUploaderClient(conn)
+		c := propu.NewPropuClient(conn)
 		decision, _ := c.EnviarPropuesta(context.Background(), &propu.Propuesta_Generada{
 			ListaPropuesta: propuesta,
 		})
@@ -121,7 +121,7 @@ func main() {
 		log.Fatalf("Error al tratar de escuchar: %v", err)
 	}
 	s := grpc.NewServer()
-	uploader.RegisterUploaderServer(s, &server{})
+	propu.RegisterPropuServer(s, &server{})
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %s", err)
 	}
