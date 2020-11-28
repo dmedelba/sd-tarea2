@@ -22,10 +22,8 @@ message Respuesta_SubirLibro {
 }
 
 message Propuesta_Generada{
-  bytes chunk = 1;
-  int32 id = 2;
-  string nombre_libro = 3; 
-  string maquina = 4;
+  repeated int32 ListaPropuesta = 1;
+
 }
 
 message Respuesta_Propuesta {
