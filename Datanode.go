@@ -39,7 +39,8 @@ func (s *server) SubirLibro(ctx context.Context, request *uploader.Solicitud_Sub
 
 func crearPropuestaInicial(nombreLibro string, cantidadChunks int) []int32 {
 	//creamos la propuesta inicial simple
-	var propuestaMaquinas [cantidadChunks]int32
+	const cantChunks := cantidadChunks
+	var propuestaMaquinas [cantChunks]int32
 	var indice = 0
 	var maquina = 70
 	for i := 0; i < cantidadChunks; i++ {
