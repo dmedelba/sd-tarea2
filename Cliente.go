@@ -50,6 +50,7 @@ func subirLibroDistribuido(conn *grpc.ClientConn) {
 	log.Printf("Seleccione un libro a descargar.")
 	log.Printf("----------------------------------")
 	fmt.Scanln(&libroSeleccionado)
+
 }
 */
 func abrirChunk(nombreLibro string, indice int) []byte {
