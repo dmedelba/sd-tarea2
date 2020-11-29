@@ -60,6 +60,7 @@ func crearPropuestaInicial(nombreLibro string, cantidadChunks int) []int {
 func enviarPropuesta(propuesta string, tipoExclusion string) {
 	//enviar propuesta
 	if tipoExclusion == "1" {
+		log.Printf("Entre a enviar propuesta")
 		//es centralizada, preguntar al name node
 		var conn *grpc.ClientConn
 		conn, err := grpc.Dial("dist69:6000", grpc.WithInsecure())
