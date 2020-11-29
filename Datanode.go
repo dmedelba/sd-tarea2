@@ -129,7 +129,7 @@ func (s *server) SubirLibro(ctx context.Context, in *uploader.Solicitud_SubirLib
 	}
 	//una vez creado los chunks por el nodo, creo la propuesta
 	if in.Id-1 == in.Cantidad {
-		fmt.Printf("Se crearon los" + in.Cantidad + "chunks")
+		fmt.Printf("Se crearon todos los chunks")
 		//a la funcion pasar el tipo de exlusión mutua
 		propuestaInicial := crearPropuestaInicial(in.NombreLibro, int(in.Cantidad))
 		propuestaInicialString := ListToString(propuestaInicial)
