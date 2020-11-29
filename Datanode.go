@@ -115,24 +115,30 @@ func propuestaToString(propuestaMaquinas []int32, nombreLibro string) string {
 	}
 	return propuesta
 }
-func (s *server) SubirLibro(ctx context.Context, request *uploader.Solicitud_SubirLibro) (*uploader.Respuesta_SubirLibro, error) {
+func (s *server) SubirLibro(ctx context.Context, in *uploader.Solicitud_SubirLibro) (*uploader.Respuesta_SubirLibro, error) {
 	log.Printf("recibi la wea")
 
 	//creo la carpeta para guardar chunks del libro
-	idChunk := strconv.Itoa(int(request.Id))
-	fileName := "./libros_subidos/" + request.NombreLibro + "-" + idChunk
+	idChunk := strconv.Itoa(int(in.Id))
+	fileName := "./libros_subidos/" + in.NombreLibro + "-" + idChunk
 	_, err := os.Create(fileName)
 
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-	//a la funcion pasar el tipo de exlusión mutua
-	propuestaInicial := crearPropuestaInicial(request.NombreLibro, int(request.Cantidad))
-	propuestaInicialString := ListToString(propuestaInicial)
-	enviarPropuesta(propuestaInicialString, request.TipoExclusionMutua)
+	//una vez creado los chunks por el nodo, creo la propuesta
+	if in.Id-1 == in.Cantidad {
+		fmt.Printf("Se crearon los" + in.Cantidad + "chunks")
+		//a la funcion pasar el tipo de exlusión mutua
+		propuestaInicial := crearPropuestaInicial(in.NombreLibro, int(in.Cantidad))
+		propuestaInicialString := ListToString(propuestaInicial)
+		enviarPropuesta(propuestaInicialString, in.TipoExclusionMutua)
 
-	log.Printf("Propuesta enviada")
+		log.Printf("Propuesta enviada")
+		return &uploader.Respuesta_SubirLibro{Respuesta: int32(0)}, nil
+	}
+
 	return &uploader.Respuesta_SubirLibro{Respuesta: int32(0)}, nil
 }
 
