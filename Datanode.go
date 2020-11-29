@@ -69,9 +69,13 @@ func enviarPropuesta(propuesta string, tipoExclusion string) {
 		defer conn.Close()
 
 		c := propu.NewPropuClient(conn)
-		decision, _ := c.EnviarPropuesta(context.Background(), &propu.Propuesta_Generada{
+		decision, error := c.EnviarPropuesta(context.Background(), &propu.Propuesta_Generada{
 			ListaPropuesta: propuesta,
 		})
+
+		if error != nil {
+			log.Fatalf("Error al tratar de enviar la propuesta al [Name node]. %s", err)
+		}
 
 		//aprobado o rechazo
 		log.Printf("Decision:")

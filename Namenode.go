@@ -13,8 +13,9 @@ import (
 type server struct {
 }
 
-func (s *server) EnviarPropuesta(ctx context.Context, request *propu.Propuesta_Generada) (*propu.Respuesta_Propuesta, error) {
-	listaPropuesta := request.ListaPropuesta
+func (s *server) EnviarPropuesta(ctx context.Context, in *propu.Propuesta_Generada) (*propu.Respuesta_Propuesta, error) {
+	listaPropuesta := in.ListaPropuesta
+	fmt.Printf("recibi algo")
 	fmt.Println(listaPropuesta)
 	return &propu.Respuesta_Propuesta{Respuesta: "PROPUESTA_RECIBIDA POR EL NAMENODE"}, nil
 }

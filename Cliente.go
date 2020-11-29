@@ -68,7 +68,7 @@ func generarChunks(nombreLibroSeleccionado string) int {
 	fileInfo, _ := file.Stat()
 
 	var fileSize int64 = fileInfo.Size()
-	const fileChunk = 250000 //250kbytes
+	const fileChunk = 256000 //250kbytes
 
 	// calculate total number of parts the file will be chunked into
 	totalPartsNum := uint64(math.Ceil(float64(fileSize) / float64(fileChunk)))
