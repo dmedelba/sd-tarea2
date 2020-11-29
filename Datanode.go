@@ -73,7 +73,7 @@ func enviarPropuesta(propuesta string, tipoExclusion string) {
 		log.Printf(propuesta)
 		c := propu.NewPropuClient(conn)
 		decision, error := c.EnviarPropuesta(context.Background(), &propu.Propuesta_Generada{
-			ListaPropuesta: propuesta,
+			ListaPropuesta: "solo soy un ser humano",
 		})
 
 		if error != nil {
