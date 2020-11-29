@@ -60,10 +60,9 @@ func crearPropuestaInicial(nombreLibro string, cantidadChunks int) []int {
 func enviarPropuesta(propuesta string, tipoExclusion string) {
 	//enviar propuesta
 	if tipoExclusion == "1" {
-		log.Printf("Entre a enviar propuesta")
 		//es centralizada, preguntar al name node
 		var conn *grpc.ClientConn
-		conn, err := grpc.Dial("dist69:6000", grpc.WithInsecure())
+		conn, err := grpc.Dial("dist69:6002", grpc.WithInsecure())
 		if err != nil {
 			log.Fatalf("Error al conectarse con la maquina 69 [Name node]. %s", err)
 		}
@@ -78,22 +77,22 @@ func enviarPropuesta(propuesta string, tipoExclusion string) {
 		log.Printf("Decision:")
 		log.Printf(decision.Respuesta)
 	}
-	/*
-		else{
-
-			//rechazo, llama a la funcion que crea nueva propuesta y hace recursividad
-			propuestaInicial := generarNuevaPropuesta(propuestaInicial)
-			decision:= enviarPropuesta( propuestaInicial, request.TipoExclusionMutua)
-			if (decision == "1"){
-				//propuesta aceptada
-				break
-			}
-		}
-	*/
-
-	//falta el else en caso de que sea distribuida
-
 }
+
+/*
+	else{
+
+		//rechazo, llama a la funcion que crea nueva propuesta y hace recursividad
+		propuestaInicial := generarNuevaPropuesta(propuestaInicial)
+		decision:= enviarPropuesta( propuestaInicial, request.TipoExclusionMutua)
+		if (decision == "1"){
+			//propuesta aceptada
+			break
+		}
+	}
+*/
+
+//falta el else en caso de que sea distribuida
 
 func generarNuevaPropuesta(propuestaMaquinas []int32) []int32 {
 	rand.Seed(time.Now().UnixNano())
