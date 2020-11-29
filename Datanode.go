@@ -74,7 +74,7 @@ func enviarPropuesta(propuesta string, tipoExclusion string) {
 		})
 
 		if error != nil {
-			log.Fatalf("Error al tratar de enviar la propuesta al [Name node]. %s", err)
+			log.Fatalf("Error al tratar de enviar la propuesta al [Name node]. %s", error)
 		}
 
 		//aprobado o rechazo
