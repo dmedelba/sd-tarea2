@@ -67,7 +67,8 @@ func enviarPropuesta(propuesta string, tipoExclusion string) {
 			log.Fatalf("Error al conectarse con la maquina 69 [Name node]. %s", err)
 		}
 		defer conn.Close()
-
+		log.Printf("Propuesta a enviar:")
+		log.Printf(propuesta)
 		c := propu.NewPropuClient(conn)
 		decision, error := c.EnviarPropuesta(context.Background(), &propu.Propuesta_Generada{
 			ListaPropuesta: propuesta,
