@@ -62,7 +62,7 @@ func enviarPropuesta(propuesta string, tipoExclusion string) {
 	if tipoExclusion == "1" {
 		//es centralizada, preguntar al name node
 		var conn *grpc.ClientConn
-		conn, err := grpc.Dial("dist69:6002", grpc.WithInsecure())
+		conn, err := grpc.Dial("dist69:6000", grpc.WithInsecure())
 		if err != nil {
 			log.Fatalf("Error al conectarse con la maquina 69 [Name node]. %s", err)
 		}
