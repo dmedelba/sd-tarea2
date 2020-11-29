@@ -41,14 +41,14 @@ func stringToList(texto string) []int {
 	}
 	return listaInt
 }
-func crearPropuestaInicial(nombreLibro string, cantidadChunks int) []int32 {
+func crearPropuestaInicial(nombreLibro string, cantidadChunks int) []int {
 	//creamos la propuesta inicial simple
-	propuestaMaquinas := make([]int32, cantidadChunks)
+	propuestaMaquinas := make([]int, cantidadChunks)
 	var indice = 0
 	var maquina = 70
 	for i := 0; i < cantidadChunks; i++ {
 		maquina += indice
-		propuestaMaquinas[i] = int32(maquina)
+		propuestaMaquinas[i] = int(maquina)
 		indice++
 		if indice == 3 {
 			indice = 0
