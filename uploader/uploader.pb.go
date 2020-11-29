@@ -157,100 +157,6 @@ func (x *Respuesta_SubirLibro) GetRespuesta() int32 {
 	return 0
 }
 
-type Propuesta_Generada struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	ListaPropuesta []int32 `protobuf:"varint,1,rep,packed,name=ListaPropuesta,proto3" json:"ListaPropuesta,omitempty"`
-}
-
-func (x *Propuesta_Generada) Reset() {
-	*x = Propuesta_Generada{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_uploader_proto_msgTypes[2]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *Propuesta_Generada) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*Propuesta_Generada) ProtoMessage() {}
-
-func (x *Propuesta_Generada) ProtoReflect() protoreflect.Message {
-	mi := &file_uploader_proto_msgTypes[2]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Propuesta_Generada.ProtoReflect.Descriptor instead.
-func (*Propuesta_Generada) Descriptor() ([]byte, []int) {
-	return file_uploader_proto_rawDescGZIP(), []int{2}
-}
-
-func (x *Propuesta_Generada) GetListaPropuesta() []int32 {
-	if x != nil {
-		return x.ListaPropuesta
-	}
-	return nil
-}
-
-type Respuesta_Propuesta struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Respuesta string `protobuf:"bytes,1,opt,name=respuesta,proto3" json:"respuesta,omitempty"`
-}
-
-func (x *Respuesta_Propuesta) Reset() {
-	*x = Respuesta_Propuesta{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_uploader_proto_msgTypes[3]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *Respuesta_Propuesta) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*Respuesta_Propuesta) ProtoMessage() {}
-
-func (x *Respuesta_Propuesta) ProtoReflect() protoreflect.Message {
-	mi := &file_uploader_proto_msgTypes[3]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use Respuesta_Propuesta.ProtoReflect.Descriptor instead.
-func (*Respuesta_Propuesta) Descriptor() ([]byte, []int) {
-	return file_uploader_proto_rawDescGZIP(), []int{3}
-}
-
-func (x *Respuesta_Propuesta) GetRespuesta() string {
-	if x != nil {
-		return x.Respuesta
-	}
-	return ""
-}
-
 var File_uploader_proto protoreflect.FileDescriptor
 
 var file_uploader_proto_rawDesc = []byte{
@@ -269,26 +175,14 @@ var file_uploader_proto_rawDesc = []byte{
 	0x69, 0x6f, 0x6e, 0x4d, 0x75, 0x74, 0x75, 0x61, 0x22, 0x34, 0x0a, 0x14, 0x52, 0x65, 0x73, 0x70,
 	0x75, 0x65, 0x73, 0x74, 0x61, 0x5f, 0x53, 0x75, 0x62, 0x69, 0x72, 0x4c, 0x69, 0x62, 0x72, 0x6f,
 	0x12, 0x1c, 0x0a, 0x09, 0x72, 0x65, 0x73, 0x70, 0x75, 0x65, 0x73, 0x74, 0x61, 0x18, 0x01, 0x20,
-	0x01, 0x28, 0x05, 0x52, 0x09, 0x72, 0x65, 0x73, 0x70, 0x75, 0x65, 0x73, 0x74, 0x61, 0x22, 0x3c,
-	0x0a, 0x12, 0x50, 0x72, 0x6f, 0x70, 0x75, 0x65, 0x73, 0x74, 0x61, 0x5f, 0x47, 0x65, 0x6e, 0x65,
-	0x72, 0x61, 0x64, 0x61, 0x12, 0x26, 0x0a, 0x0e, 0x4c, 0x69, 0x73, 0x74, 0x61, 0x50, 0x72, 0x6f,
-	0x70, 0x75, 0x65, 0x73, 0x74, 0x61, 0x18, 0x01, 0x20, 0x03, 0x28, 0x05, 0x52, 0x0e, 0x4c, 0x69,
-	0x73, 0x74, 0x61, 0x50, 0x72, 0x6f, 0x70, 0x75, 0x65, 0x73, 0x74, 0x61, 0x22, 0x33, 0x0a, 0x13,
-	0x52, 0x65, 0x73, 0x70, 0x75, 0x65, 0x73, 0x74, 0x61, 0x5f, 0x50, 0x72, 0x6f, 0x70, 0x75, 0x65,
-	0x73, 0x74, 0x61, 0x12, 0x1c, 0x0a, 0x09, 0x72, 0x65, 0x73, 0x70, 0x75, 0x65, 0x73, 0x74, 0x61,
-	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x72, 0x65, 0x73, 0x70, 0x75, 0x65, 0x73, 0x74,
-	0x61, 0x32, 0xac, 0x01, 0x0a, 0x08, 0x55, 0x70, 0x6c, 0x6f, 0x61, 0x64, 0x65, 0x72, 0x12, 0x4e,
-	0x0a, 0x0a, 0x53, 0x75, 0x62, 0x69, 0x72, 0x4c, 0x69, 0x62, 0x72, 0x6f, 0x12, 0x1e, 0x2e, 0x75,
-	0x70, 0x6c, 0x6f, 0x61, 0x64, 0x65, 0x72, 0x2e, 0x53, 0x6f, 0x6c, 0x69, 0x63, 0x69, 0x74, 0x75,
-	0x64, 0x5f, 0x53, 0x75, 0x62, 0x69, 0x72, 0x4c, 0x69, 0x62, 0x72, 0x6f, 0x1a, 0x1e, 0x2e, 0x75,
-	0x70, 0x6c, 0x6f, 0x61, 0x64, 0x65, 0x72, 0x2e, 0x52, 0x65, 0x73, 0x70, 0x75, 0x65, 0x73, 0x74,
-	0x61, 0x5f, 0x53, 0x75, 0x62, 0x69, 0x72, 0x4c, 0x69, 0x62, 0x72, 0x6f, 0x22, 0x00, 0x12, 0x50,
-	0x0a, 0x0f, 0x45, 0x6e, 0x76, 0x69, 0x61, 0x72, 0x50, 0x72, 0x6f, 0x70, 0x75, 0x65, 0x73, 0x74,
-	0x61, 0x12, 0x1c, 0x2e, 0x75, 0x70, 0x6c, 0x6f, 0x61, 0x64, 0x65, 0x72, 0x2e, 0x50, 0x72, 0x6f,
-	0x70, 0x75, 0x65, 0x73, 0x74, 0x61, 0x5f, 0x47, 0x65, 0x6e, 0x65, 0x72, 0x61, 0x64, 0x61, 0x1a,
-	0x1d, 0x2e, 0x75, 0x70, 0x6c, 0x6f, 0x61, 0x64, 0x65, 0x72, 0x2e, 0x52, 0x65, 0x73, 0x70, 0x75,
-	0x65, 0x73, 0x74, 0x61, 0x5f, 0x50, 0x72, 0x6f, 0x70, 0x75, 0x65, 0x73, 0x74, 0x61, 0x22, 0x00,
-	0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x01, 0x28, 0x05, 0x52, 0x09, 0x72, 0x65, 0x73, 0x70, 0x75, 0x65, 0x73, 0x74, 0x61, 0x32, 0x5a,
+	0x0a, 0x08, 0x55, 0x70, 0x6c, 0x6f, 0x61, 0x64, 0x65, 0x72, 0x12, 0x4e, 0x0a, 0x0a, 0x53, 0x75,
+	0x62, 0x69, 0x72, 0x4c, 0x69, 0x62, 0x72, 0x6f, 0x12, 0x1e, 0x2e, 0x75, 0x70, 0x6c, 0x6f, 0x61,
+	0x64, 0x65, 0x72, 0x2e, 0x53, 0x6f, 0x6c, 0x69, 0x63, 0x69, 0x74, 0x75, 0x64, 0x5f, 0x53, 0x75,
+	0x62, 0x69, 0x72, 0x4c, 0x69, 0x62, 0x72, 0x6f, 0x1a, 0x1e, 0x2e, 0x75, 0x70, 0x6c, 0x6f, 0x61,
+	0x64, 0x65, 0x72, 0x2e, 0x52, 0x65, 0x73, 0x70, 0x75, 0x65, 0x73, 0x74, 0x61, 0x5f, 0x53, 0x75,
+	0x62, 0x69, 0x72, 0x4c, 0x69, 0x62, 0x72, 0x6f, 0x22, 0x00, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74,
+	0x6f, 0x33,
 }
 
 var (
@@ -303,20 +197,16 @@ func file_uploader_proto_rawDescGZIP() []byte {
 	return file_uploader_proto_rawDescData
 }
 
-var file_uploader_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_uploader_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_uploader_proto_goTypes = []interface{}{
 	(*Solicitud_SubirLibro)(nil), // 0: uploader.Solicitud_SubirLibro
 	(*Respuesta_SubirLibro)(nil), // 1: uploader.Respuesta_SubirLibro
-	(*Propuesta_Generada)(nil),   // 2: uploader.Propuesta_Generada
-	(*Respuesta_Propuesta)(nil),  // 3: uploader.Respuesta_Propuesta
 }
 var file_uploader_proto_depIdxs = []int32{
 	0, // 0: uploader.Uploader.SubirLibro:input_type -> uploader.Solicitud_SubirLibro
-	2, // 1: uploader.Uploader.EnviarPropuesta:input_type -> uploader.Propuesta_Generada
-	1, // 2: uploader.Uploader.SubirLibro:output_type -> uploader.Respuesta_SubirLibro
-	3, // 3: uploader.Uploader.EnviarPropuesta:output_type -> uploader.Respuesta_Propuesta
-	2, // [2:4] is the sub-list for method output_type
-	0, // [0:2] is the sub-list for method input_type
+	1, // 1: uploader.Uploader.SubirLibro:output_type -> uploader.Respuesta_SubirLibro
+	1, // [1:2] is the sub-list for method output_type
+	0, // [0:1] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -352,30 +242,6 @@ func file_uploader_proto_init() {
 				return nil
 			}
 		}
-		file_uploader_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Propuesta_Generada); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_uploader_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Respuesta_Propuesta); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -383,7 +249,7 @@ func file_uploader_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_uploader_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   4,
+			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
@@ -410,7 +276,6 @@ const _ = grpc.SupportPackageIsVersion6
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type UploaderClient interface {
 	SubirLibro(ctx context.Context, in *Solicitud_SubirLibro, opts ...grpc.CallOption) (*Respuesta_SubirLibro, error)
-	EnviarPropuesta(ctx context.Context, in *Propuesta_Generada, opts ...grpc.CallOption) (*Respuesta_Propuesta, error)
 }
 
 type uploaderClient struct {
@@ -430,19 +295,9 @@ func (c *uploaderClient) SubirLibro(ctx context.Context, in *Solicitud_SubirLibr
 	return out, nil
 }
 
-func (c *uploaderClient) EnviarPropuesta(ctx context.Context, in *Propuesta_Generada, opts ...grpc.CallOption) (*Respuesta_Propuesta, error) {
-	out := new(Respuesta_Propuesta)
-	err := c.cc.Invoke(ctx, "/uploader.Uploader/EnviarPropuesta", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // UploaderServer is the server API for Uploader service.
 type UploaderServer interface {
 	SubirLibro(context.Context, *Solicitud_SubirLibro) (*Respuesta_SubirLibro, error)
-	EnviarPropuesta(context.Context, *Propuesta_Generada) (*Respuesta_Propuesta, error)
 }
 
 // UnimplementedUploaderServer can be embedded to have forward compatible implementations.
@@ -451,9 +306,6 @@ type UnimplementedUploaderServer struct {
 
 func (*UnimplementedUploaderServer) SubirLibro(context.Context, *Solicitud_SubirLibro) (*Respuesta_SubirLibro, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SubirLibro not implemented")
-}
-func (*UnimplementedUploaderServer) EnviarPropuesta(context.Context, *Propuesta_Generada) (*Respuesta_Propuesta, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method EnviarPropuesta not implemented")
 }
 
 func RegisterUploaderServer(s *grpc.Server, srv UploaderServer) {
@@ -478,24 +330,6 @@ func _Uploader_SubirLibro_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Uploader_EnviarPropuesta_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Propuesta_Generada)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UploaderServer).EnviarPropuesta(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/uploader.Uploader/EnviarPropuesta",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UploaderServer).EnviarPropuesta(ctx, req.(*Propuesta_Generada))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 var _Uploader_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "uploader.Uploader",
 	HandlerType: (*UploaderServer)(nil),
@@ -503,10 +337,6 @@ var _Uploader_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SubirLibro",
 			Handler:    _Uploader_SubirLibro_Handler,
-		},
-		{
-			MethodName: "EnviarPropuesta",
-			Handler:    _Uploader_EnviarPropuesta_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
