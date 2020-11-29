@@ -22,7 +22,7 @@ func (s *server) EnviarPropuesta(ctx context.Context, in *propu.Propuesta_Genera
 
 func main() {
 	log.Printf("[Namenode]")
-	lis, err := net.Listen("tcp", ":6000")
+	lis, err := net.Listen("tcp", ":6004")
 	if err != nil {
 		log.Fatalf("Error al tratar de escuchar: %v", err)
 	}
