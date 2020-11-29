@@ -73,7 +73,7 @@ func enviarPropuesta(propuesta []int32, tipoExclusion string) {
 
 		//aprobado o rechazo
 		log.Printf("Decision:")
-		log.Printf(decision)
+		log.Printf(decision.Respuesta)
 	}
 	/*
 		else{
