@@ -7,7 +7,7 @@ service Propu {
 }
 
 message Propuesta_Generada{
-  repeated int32 ListaPropuesta = 1;
+  string ListaPropuesta = 1;
 
 }
 
