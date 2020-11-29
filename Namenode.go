@@ -16,6 +16,7 @@ type server struct {
 func (s *server) EnviarPropuesta(ctx context.Context, request *propu.Propuesta_Generada) (*propu.Respuesta_Propuesta, error) {
 	listaPropuesta := request.ListaPropuesta
 	fmt.Println(listaPropuesta)
+	return nil, &propu.Respuesta_Propuesta{Respuesta: "PROPUESTA_RECIBIDA POR EL NAMENODE"}
 }
 
 func main() {
