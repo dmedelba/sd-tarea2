@@ -68,7 +68,7 @@ func enviarPropuesta(propuesta string, tipoExclusion string) {
 		if err != nil {
 			log.Fatalf("Error al conectarse con la maquina 69 [Name node]. %s", err)
 		}
-
+		defer conn.Close()
 		log.Printf("Propuesta a enviar:")
 		log.Printf(propuesta)
 		c := propu.NewPropuClient(conn)
@@ -79,8 +79,6 @@ func enviarPropuesta(propuesta string, tipoExclusion string) {
 		if error != nil {
 			log.Fatalf("Error al tratar de enviar la propuesta al [Name node]. %s", error)
 		}
-
-		defer conn.Close()
 
 		//aprobado o rechazo
 		log.Printf("Decision:")
