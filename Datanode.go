@@ -14,6 +14,7 @@ import (
 	"./uploader"
 
 	"./propu"
+	//"golang.org/x/net/context"
 	"google.golang.org/grpc"
 )
 
@@ -47,9 +48,10 @@ func crearPropuestaInicial(nombreLibro string, cantidadChunks int) []int {
 	var indice = 0
 	var maquina = 70
 	for i := 0; i < cantidadChunks; i++ {
-		maquina += indice
+
 		propuestaMaquinas[i] = int(maquina)
 		indice++
+		maquina++
 		if indice == 3 {
 			indice = 0
 			maquina = 70
