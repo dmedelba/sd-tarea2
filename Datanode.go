@@ -72,7 +72,8 @@ func enviarPropuesta(propuesta []int32, tipoExclusion string) {
 		})
 
 		//aprobado o rechazo
-		log.Printf("hola")
+		log.Printf("Decision:")
+		log.Printf(decision)
 	}
 	/*
 		else{
