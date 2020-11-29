@@ -121,7 +121,7 @@ func main() {
 		log.Fatalf("Error al tratar de escuchar: %v", err)
 	}
 	s := grpc.NewServer()
-	uploader.RegisterPropuServer(s, &server{})
+	uploader.RegisterUploaderServer(s, &server{})
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %s", err)
 	}
