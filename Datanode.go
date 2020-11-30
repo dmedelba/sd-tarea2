@@ -59,16 +59,11 @@ func crearPropuestaInicial(nombreLibro string, cantidadChunks int) []int {
 	}
 	return propuestaMaquinas
 }
-func enviarPropuesta(propuesta string, tipoExclusion string) {
+func enviarPropuesta(propuesta string, tipoExclusion string, conn *grpc.ClientConn) {
 	//enviar propuesta
 	if tipoExclusion == "1" {
 		//es centralizada, preguntar al name node
-		var conn *grpc.ClientConn
-		conn, err := grpc.Dial("dist69:6006", grpc.WithInsecure())
-		if err != nil {
-			log.Fatalf("Error al conectarse con la maquina 69 [Name node]. %s", err)
-		}
-		defer conn.Close()
+
 		log.Printf("Propuesta a enviar:")
 		log.Printf(propuesta)
 		c := propu.NewPropuClient(conn)
@@ -140,7 +135,14 @@ func (s *server) SubirLibro(ctx context.Context, in *uploader.Solicitud_SubirLib
 		//a la funcion pasar el tipo de exlusión mutua
 		propuestaInicial := crearPropuestaInicial(in.NombreLibro, int(in.Cantidad))
 		propuestaInicialString := ListToString(propuestaInicial)
-		enviarPropuesta(propuestaInicialString, in.TipoExclusionMutua)
+		//conec
+		var conn *grpc.ClientConn
+		conn, err := grpc.Dial("dist69:6006", grpc.WithInsecure())
+		if err != nil {
+			log.Fatalf("Error al conectarse con la maquina 69 [Name node]. %s", err)
+		}
+		defer conn.Close()
+		enviarPropuesta(propuestaInicialString, in.TipoExclusionMutua, conn)
 
 		log.Printf("Propuesta enviada")
 		return &uploader.Respuesta_SubirLibro{Respuesta: int32(0)}, nil
