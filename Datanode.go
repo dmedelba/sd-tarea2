@@ -67,9 +67,13 @@ func enviarPropuesta(propuesta string, tipoExclusion string, conn *grpc.ClientCo
 		log.Printf("Propuesta a enviar:")
 		log.Printf(propuesta)
 		c := propu.NewPropuClient(conn)
-		respuestita, _ := c.EnviarPropuesta(context.Background(), &propu.Propuesta_Generada{
+		respuestita, err := c.EnviarPropuesta(context.Background(), &propu.Propuesta_Generada{
 			ListaPropuesta: propuesta,
 		})
+
+		if err != nil {
+			log.Fatalf("Error de envio de mensaje %s", err)
+		}
 
 		//aprobado o rechazo
 		log.Printf("Decision:")
