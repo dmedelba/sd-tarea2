@@ -135,7 +135,7 @@ func (s *server) SubirLibro(ctx context.Context, in *uploader.Solicitud_SubirLib
 		//a la funcion pasar el tipo de exlusión mutua
 		propuestaInicial := crearPropuestaInicial(in.NombreLibro, int(in.Cantidad))
 		propuestaInicialString := ListToString(propuestaInicial)
-		//conec
+		//conexion
 		var conn *grpc.ClientConn
 		conn, err := grpc.Dial("dist69:6006", grpc.WithInsecure())
 		if err != nil {
