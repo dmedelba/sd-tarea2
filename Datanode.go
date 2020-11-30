@@ -71,10 +71,6 @@ func enviarPropuesta(propuesta string, tipoExclusion string, conn *grpc.ClientCo
 			ListaPropuesta: propuesta,
 		})
 
-		if error != nil {
-			log.Fatalf("Error al tratar de enviar la propuesta al [Name node]. %s", error)
-		}
-
 		//aprobado o rechazo
 		log.Printf("Decision:")
 		log.Printf(decision.Respuesta)
