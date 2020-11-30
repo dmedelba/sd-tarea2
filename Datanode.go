@@ -67,7 +67,7 @@ func enviarPropuesta(propuesta string, tipoExclusion string, conn *grpc.ClientCo
 		log.Printf("Propuesta a enviar:")
 		log.Printf(propuesta)
 		c := propu.NewPropuClient(conn)
-		decision, error := c.EnviarPropuesta(context.Background(), &propu.Propuesta_Generada{
+		decision, _ := c.EnviarPropuesta(context.Background(), &propu.Propuesta_Generada{
 			ListaPropuesta: propuesta,
 		})
 
