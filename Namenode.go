@@ -43,7 +43,7 @@ func borrarMaquina(propuesta []int, value int) ([]int, int) {
 			cant = cant + 1
 			copy(propuesta[i:], propuesta[i+1:])
 			propuesta[len(propuesta)-1] = 0
-			intSlice = propuesta[:len(propuesta)-1]
+			intSlice := propuesta[:len(propuesta)-1]
 		}
 	}
 	return propuesta, cant
@@ -56,11 +56,13 @@ func evaluarPropuesta(propuesta string) {
 	var cant int
 	var total int
 	total = 0
+	//recorro la lista de maquinas para verificar nodos caidos
 
-	//recorro la lista de maquinas paraverificar nodos caidos
 	var conn *grpc.ClientConn
+
 	for i := 0; i < len(maquinitas); i++ {
-		conn, err := grpc.Dial("dist"+maquinitas[i]+":6009", grpc.WithInsecure())
+		numeroMaquina := strconv.Itoa(maquinitas[i])
+		conn, err := grpc.Dial("dist"+numeroMaquina+":6009", grpc.WithInsecure())
 		if err != nil {
 			log.Printf("Maquina caida")
 			propuestita, cant = borrarMaquina(propuestita, maquinitas[i])
