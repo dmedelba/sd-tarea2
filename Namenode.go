@@ -54,8 +54,7 @@ func evaluarPropuesta(propuesta string) {
 	propuestita := stringToList(propuesta)
 	maquinitas := []int{70, 71, 72}
 	var cant int
-	var total int
-	total = 0
+	total := 0
 	//recorro la lista de maquinas para verificar nodos caidos
 
 	var conn *grpc.ClientConn
@@ -70,6 +69,7 @@ func evaluarPropuesta(propuesta string) {
 			continue
 		}
 		defer conn.Close()
+
 	}
 
 	//verificar maquinas caidas

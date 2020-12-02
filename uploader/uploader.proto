@@ -2,7 +2,8 @@ syntax = "proto3";
 package uploader;
 
 service Uploader {
-    rpc SubirLibro(Solicitud_SubirLibro) returns (Respuesta_SubirLibro) {}    
+    rpc SubirLibro(Solicitud_SubirLibro) returns (Respuesta_SubirLibro) {}  
+    rpc EstadoMaquina(Solicitud_EstadoMaquina) returns (Respuesa_EstadoMaquina) {}  
 }
 
 //solicita subir un libro
@@ -16,6 +17,15 @@ message Solicitud_SubirLibro {
 
 //respuesta del dataNode
 message Respuesta_SubirLibro {
-  int32 respuesta = 1;
+    int32 respuesta = 1;
+}
+
+//solicitud para saber si la maquina esta caida o no
+message Solicitud_EstadoMaquina {
+    string estado_maquina = 1;
+}
+
+message Respuesa_EstadoMaquina {
+    string estado_maquina = 1;
 }
 
