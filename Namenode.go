@@ -24,7 +24,7 @@ func (s *server) EnviarPropuesta(ctx context.Context, in *propu.Propuesta_Genera
 	nuevaPropuesta := evaluarPropuesta(listaPropuesta)
 	//si cambio, entregara la nueva propuesta, si no, entregará la misma.
 
-	return &propu.Respuesta_Propuesta{Respuesta: "Propuesta que funciona: "}, nil
+	return &propu.Respuesta_Propuesta{Respuesta: nuevaPropuesta}, nil
 }
 
 func stringToList(texto string) []int {
