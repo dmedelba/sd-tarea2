@@ -70,10 +70,9 @@ func evaluarPropuesta(propuesta string) string {
 	total := 0
 	//recorro la lista de maquinas para verificar nodos caidos
 
-	var conn *grpc.ClientConn
-
 	for i := 0; i < len(maquinitas); i++ {
 		numeroMaquina := strconv.Itoa(maquinitas[i])
+		var conn *grpc.ClientConn
 		conn, err := grpc.Dial("dist"+numeroMaquina+":6009", grpc.WithInsecure())
 
 		if err != nil {
