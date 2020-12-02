@@ -133,20 +133,20 @@ func distribuirChunks(distribucion string, nombreLibro string) {
 			log.Fatalf("No se pudo conectar al datanode para distribuir: %s", err)
 		}
 		defer conn.Close()
-		c:=uploader.NewUploaderClient(conn)
+		c := uploader.NewUploaderClient(conn)
 		mensajes += 1
-		listo, _ := c.Distribuir(context.Background(),&uploader.Solicitud_Distribucion{
-			IdChunk:int32(i),
-			NombreLibro: nombreLibro,
+		listo, _ := c.Distribuir(context.Background(), &uploader.Solicitud_Distribucion{
+			IdChunk:        int32(i),
+			NombreLibro:    nombreLibro,
 			ContenidoChunk: contenidoChunk,
-			})
-		if (listo.Respuesta == "1"){
+		})
+		if listo.Respuesta == "1" {
 			log.Printf("Se ha recibido el chunk en la maquina" + maquinaStr)
-		}
 		}
 
 	}
 }
+
 //recibo los libros desde el cliente, los almaceno, genero propuesta y envio segun tipo de exclusión.
 func (s *server) SubirLibro(ctx context.Context, in *uploader.Solicitud_SubirLibro) (*uploader.Respuesta_SubirLibro, error) {
 	log.Printf("recibi la wea y que maquina soy, pasandolo por el proto.")
@@ -156,7 +156,7 @@ func (s *server) SubirLibro(ctx context.Context, in *uploader.Solicitud_SubirLib
 	idChunk := strconv.Itoa(int(in.Id))
 	fileName := "./libros_subidos/" + in.NombreLibro + "-" + idChunk
 	_, err := os.Create(fileName)
-	
+
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
@@ -186,18 +186,20 @@ func (s *server) SubirLibro(ctx context.Context, in *uploader.Solicitud_SubirLib
 
 	return &uploader.Respuesta_SubirLibro{Respuesta: int32(0)}, nil
 }
+
 //respondemos cual es el estado de la maquina
 func (s *server) EstadoMaquina(ctx context.Context, respuesta *uploader.Solicitud_EstadoMaquina) (*uploader.Respuesa_EstadoMaquina, error) {
 	return &uploader.Respuesa_EstadoMaquina{EstadoMaquina: "1"}, nil
 }
+
 //funcion que recibe los chunks luego de enviada la distribución (propuesta aceptada)
 func (s *server) Distribuir(ctx context.Context, respuesta *uploader.Solicitud_Distribucion) (*uploader.Respuesta_Distribucion, error) {
 	log.Printf("Guardando chunk en la maquina correspondiente:")
-	//Recibimos el chunk correspondiente desde el nodo distribución 
+	//Recibimos el chunk correspondiente desde el nodo distribución
 	idChunk := strconv.Itoa(int(respuesta.idChunk))
 	fileName := "./mis_chunks/" + respuesta.NombreLibro + "-" + idChunk
 	_, err := os.Create(fileName)
-	
+
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
