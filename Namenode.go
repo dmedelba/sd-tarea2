@@ -29,7 +29,7 @@ func (s *server) EnviarPropuesta(ctx context.Context, in *propu.Propuesta_Genera
 	//Escribir en el log ya que es una propuesta aceptada
 	//[1,2,3]
 
-	textoPropuesta := propuestaToString(stringToList(nuevaPropuesta), "Nombre_Libro")
+	textoPropuesta := propuestaToString(stringToList(nuevaPropuesta), nombreLibro)
 	file, err := os.OpenFile("./log.txt", os.O_WRONLY|os.O_APPEND, 0644)
 	if err != nil {
 		log.Fatalf("No se puede abrir el archivo log: %s", err)
