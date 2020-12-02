@@ -81,8 +81,8 @@ func enviarPropuesta(propuesta string, tipoExclusion string, conn *grpc.ClientCo
 		log.Printf("Decision:")
 		log.Printf(respuestita.Respuesta)
 		propuestaDistribucion = respuestita.Respuesta
-		return propuestaDistribucion
 	}
+	return propuestaDistribucion
 }
 
 /*
@@ -134,7 +134,6 @@ func distribuirChunks(distribucion string, nombreLibro string) {
 		}
 		defer conn.Close()
 		c := uploader.NewUploaderClient(conn)
-		mensajes += 1
 		listo, _ := c.Distribuir(context.Background(), &uploader.Solicitud_Distribucion{
 			IdChunk:        int32(i),
 			NombreLibro:    nombreLibro,
@@ -196,7 +195,7 @@ func (s *server) EstadoMaquina(ctx context.Context, respuesta *uploader.Solicitu
 func (s *server) Distribuir(ctx context.Context, respuesta *uploader.Solicitud_Distribucion) (*uploader.Respuesta_Distribucion, error) {
 	log.Printf("Guardando chunk en la maquina correspondiente:")
 	//Recibimos el chunk correspondiente desde el nodo distribución
-	idChunk := strconv.Itoa(int(respuesta.idChunk))
+	idChunk := strconv.Itoa(int(respuesta.IdChunk))
 	fileName := "./mis_chunks/" + respuesta.NombreLibro + "-" + idChunk
 	_, err := os.Create(fileName)
 
