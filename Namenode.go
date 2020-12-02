@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"./propu"
+	"./uploader"
 	"google.golang.org/grpc"
 )
 
@@ -71,27 +72,27 @@ func evaluarPropuesta(propuesta string) string {
 	for i := 0; i < len(maquinitas); i++ {
 		numeroMaquina := strconv.Itoa(maquinitas[i])
 		log.Printf(numeroMaquina)
-		/*
-			var conn *grpc.ClientConn
-			conn, err := grpc.Dial("dist"+numeroMaquina+":6000", grpc.WithInsecure())
 
-			if err != nil {
-				log.Fatalf("Error de envio de mensaje %s", err)
-			}
+		var conn *grpc.ClientConn
+		conn, err := grpc.Dial("dist"+numeroMaquina+":6000", grpc.WithInsecure())
 
-			defer conn.Close()
+		if err != nil {
+			log.Fatalf("Error de envio de mensaje %s", err)
+		}
 
-			c := uploader.NewUploaderClient(conn)
-			conexion, error := c.EstadoMaquina(context.Background(), &uploader.Solicitud_EstadoMaquina{
-				EstadoMaquina: "1",
-			})
+		defer conn.Close()
 
-			if error != nil {
-				log.Printf(conexion.EstadoMaquina)
-				log.Printf("dist" + numeroMaquina + ":6000, Maquina caida")
-				propuestita, cant = borrarMaquina(propuestita, maquinitas[i])
-				total = cant + total
-			}*/
+		c := uploader.NewUploaderClient(conn)
+		conexion, error := c.EstadoMaquina(context.Background(), &uploader.Solicitud_EstadoMaquina{
+			EstadoMaquina: "1",
+		})
+
+		if error != nil {
+			log.Printf(conexion.EstadoMaquina)
+			log.Printf("dist" + numeroMaquina + ":6000, Maquina caida")
+			propuestita, cant = borrarMaquina(propuestita, maquinitas[i])
+			total = cant + total
+		}
 	}
 	propuestitaString := ListToString(propuestita)
 	return propuestitaString
