@@ -16,7 +16,7 @@ import (
 )
 
 const (
-	puerto = "dist70:6000"
+	puerto = "dist70:5000"
 )
 
 func subirLibro(conn *grpc.ClientConn, tipo string) {

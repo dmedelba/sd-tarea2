@@ -27,7 +27,6 @@ func (s *server) EnviarPropuesta(ctx context.Context, in *propu.Propuesta_Genera
 	nuevaPropuesta := evaluarPropuesta(listaPropuesta)
 	//si cambio, entregara la nueva propuesta, si no, entregará la misma.
 	//Escribir en el log ya que es una propuesta aceptada
-	//[1,2,3]
 
 	textoPropuesta := propuestaToString(stringToList(nuevaPropuesta), nombreLibro)
 	file, err := os.OpenFile("./log.txt", os.O_WRONLY|os.O_APPEND, 0644)
@@ -105,7 +104,7 @@ func evaluarPropuesta(propuesta string) string {
 		log.Printf(numeroMaquina)
 
 		var conn *grpc.ClientConn
-		conn, err := grpc.Dial("dist"+numeroMaquina+":6000", grpc.WithInsecure())
+		conn, err := grpc.Dial("dist"+numeroMaquina+":5000", grpc.WithInsecure())
 
 		if err != nil {
 			log.Fatalf("Error de envio de mensaje %s", err)
@@ -120,7 +119,7 @@ func evaluarPropuesta(propuesta string) string {
 
 		if error != nil {
 			//log.Printf(conexion.EstadoMaquina)
-			log.Printf("dist" + numeroMaquina + ":6000, Maquina caida")
+			log.Printf("dist" + numeroMaquina + ":5000, Maquina caida")
 			propuestita = borrarMaquina(propuestita, maquinitas[i])
 		} else {
 			log.Printf("Maquina funcionando")
@@ -134,7 +133,7 @@ func evaluarPropuesta(propuesta string) string {
 
 func main() {
 	log.Printf("[Namenode]")
-	lis, err := net.Listen("tcp", ":6006")
+	lis, err := net.Listen("tcp", ":5000")
 	if err != nil {
 		log.Fatalf("Error al tratar de escuchar: %v", err)
 	}

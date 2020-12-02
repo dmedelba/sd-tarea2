@@ -4,6 +4,7 @@ package uploader;
 service Uploader {
     rpc SubirLibro(Solicitud_SubirLibro) returns (Respuesta_SubirLibro) {}  
     rpc EstadoMaquina(Solicitud_EstadoMaquina) returns (Respuesa_EstadoMaquina) {}  
+    rpc Distribuir(Solicitud_Distribucion) returns (Respuesta_Distribucion){}
 }
 
 //solicita subir un libro
@@ -29,3 +30,13 @@ message Respuesa_EstadoMaquina {
     string estado_maquina = 1;
 }
 
+message Solicitud_Distribucion {
+    int32 idChunk = 1;
+    string nombreLibro = 2;
+    bytes contenidoChunk = 3;
+
+}
+
+message Respuesta_Distribucion {
+    string respuesta = 1;
+}

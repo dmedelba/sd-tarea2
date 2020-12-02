@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"math/rand"
 	"net"
@@ -59,8 +60,9 @@ func crearPropuestaInicial(cantidadChunks int) []int {
 	}
 	return propuestaMaquinas
 }
-func enviarPropuesta(propuesta string, tipoExclusion string, conn *grpc.ClientConn, NombreLibro string) {
+func enviarPropuesta(propuesta string, tipoExclusion string, conn *grpc.ClientConn, NombreLibro string) string {
 	//enviar propuesta
+	var propuestaDistribucion string
 	if tipoExclusion == "1" {
 		//es centralizada, preguntar al name node
 
@@ -75,10 +77,11 @@ func enviarPropuesta(propuesta string, tipoExclusion string, conn *grpc.ClientCo
 		if err != nil {
 			log.Fatalf("Error de envio de mensaje %s", err)
 		}
-
 		//aprobado o rechazo
 		log.Printf("Decision:")
 		log.Printf(respuestita.Respuesta)
+		propuestaDistribucion = respuestita.Respuesta
+		return propuestaDistribucion
 	}
 }
 
@@ -105,19 +108,61 @@ func generarNuevaPropuesta(propuestaMaquinas []int32) []int32 {
 	})
 	return propuestaMaquinas
 }
+func leerChunk(nombreLibro string, indice int) []byte {
+	indiceStr := strconv.Itoa(indice)
+	file, err := os.Open("./libros_subidos/" + nombreLibro + "-" + indiceStr)
+	if err != nil {
+		log.Fatal(err)
+	}
+	content, err := ioutil.ReadAll(file)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return content
+}
+func distribuirChunks(distribucion string, nombreLibro string) {
+	//recorrer la lista y enviar a los chunks correspondientes.
+	listaChunks := stringToList(distribucion)
+	for i := 0; i < len(listaChunks); i++ {
+		//tengo que enviar el id del chunk, el nombre y el contenido.
+		contenidoChunk := leerChunk(nombreLibro, i)
+		maquinaStr := strconv.Itoa(listaChunks[i])
+		//crear la conexion con la maquina en cuestion
+		conn, err := grpc.Dial("dist"+maquinaStr+":5000", grpc.WithInsecure())
+		if err != nil {
+			log.Fatalf("No se pudo conectar al datanode para distribuir: %s", err)
+		}
+		defer conn.Close()
+		c:=uploader.NewUploaderClient(conn)
+		mensajes += 1
+		listo, _ := c.Distribuir(context.Background(),&uploader.Solicitud_Distribucion{
+			IdChunk:int32(i),
+			NombreLibro: nombreLibro,
+			ContenidoChunk: contenidoChunk,
+			})
+		if (listo.Respuesta == "1"){
+			log.Printf("Se ha recibido el chunk en la maquina" + maquinaStr)
+		}
+		}
 
+	}
+}
+//recibo los libros desde el cliente, los almaceno, genero propuesta y envio segun tipo de exclusión.
 func (s *server) SubirLibro(ctx context.Context, in *uploader.Solicitud_SubirLibro) (*uploader.Respuesta_SubirLibro, error) {
-	log.Printf("recibi la wea")
+	log.Printf("recibi la wea y que maquina soy, pasandolo por el proto.")
 
+	//Recibimos los chunks desde el cliente
 	//creo la carpeta para guardar chunks del libro
 	idChunk := strconv.Itoa(int(in.Id))
 	fileName := "./libros_subidos/" + in.NombreLibro + "-" + idChunk
 	_, err := os.Create(fileName)
-
+	
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
+	//guardo el contenido del chunk
+	ioutil.WriteFile(fileName, in.Chunk, os.ModeAppend)
 	//una vez creado los chunks por el nodo, creo la propuesta
 	if int(in.Id) == int(in.Cantidad)-1 {
 		fmt.Printf("Se crearon todos los chunks")
@@ -126,26 +171,45 @@ func (s *server) SubirLibro(ctx context.Context, in *uploader.Solicitud_SubirLib
 		propuestaInicialString := ListToString(propuestaInicial)
 		//conexion
 		var conn *grpc.ClientConn
-		conn, err := grpc.Dial("dist69:6006", grpc.WithInsecure())
+		conn, err := grpc.Dial("dist69:5000", grpc.WithInsecure())
 		if err != nil {
 			log.Fatalf("Error al conectarse con la maquina 69 [Name node]. %s", err)
 		}
 		defer conn.Close()
-		enviarPropuesta(propuestaInicialString, in.TipoExclusionMutua, conn, in.NombreLibro)
-
 		log.Printf("Propuesta enviada")
+
+		distribucion := enviarPropuesta(propuestaInicialString, in.TipoExclusionMutua, conn, in.NombreLibro)
+		distribuirChunks(distribucion, in.NombreLibro)
+
 		return &uploader.Respuesta_SubirLibro{Respuesta: int32(0)}, nil
 	}
 
 	return &uploader.Respuesta_SubirLibro{Respuesta: int32(0)}, nil
 }
-
+//respondemos cual es el estado de la maquina
 func (s *server) EstadoMaquina(ctx context.Context, respuesta *uploader.Solicitud_EstadoMaquina) (*uploader.Respuesa_EstadoMaquina, error) {
 	return &uploader.Respuesa_EstadoMaquina{EstadoMaquina: "1"}, nil
 }
+//funcion que recibe los chunks luego de enviada la distribución (propuesta aceptada)
+func (s *server) Distribuir(ctx context.Context, respuesta *uploader.Solicitud_Distribucion) (*uploader.Respuesta_Distribucion, error) {
+	log.Printf("Guardando chunk en la maquina correspondiente:")
+	//Recibimos el chunk correspondiente desde el nodo distribución 
+	idChunk := strconv.Itoa(int(respuesta.idChunk))
+	fileName := "./mis_chunks/" + respuesta.NombreLibro + "-" + idChunk
+	_, err := os.Create(fileName)
+	
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	//guardo el contenido del chunk
+	ioutil.WriteFile(fileName, respuesta.ContenidoChunk, os.ModeAppend)
+	return &uploader.Respuesta_Distribucion{Respuesta: "1"}, nil
+}
+
 func main() {
 	log.Printf("[Datanode]")
-	lis, err := net.Listen("tcp", ":6000")
+	lis, err := net.Listen("tcp", ":5000")
 	if err != nil {
 		log.Fatalf("Error al tratar de escuchar: %v", err)
 	}
