@@ -6,6 +6,7 @@ import (
 	"log"
 	"math/rand"
 	"net"
+	"os"
 	"strconv"
 	"strings"
 
@@ -19,17 +20,39 @@ type server struct {
 
 func (s *server) EnviarPropuesta(ctx context.Context, in *propu.Propuesta_Generada) (*propu.Respuesta_Propuesta, error) {
 	listaPropuesta := in.ListaPropuesta
-	//cantChunks := len(listaPropuesta)
+	cantChunks := len(listaPropuesta)
 	fmt.Printf("Propuesta recibida, a evaluar")
 	fmt.Printf(listaPropuesta)
 	//evaluamos la propuesta, si hay una maquina que no funcione el namenode genera una nueva propuesta con las maquinas activas.
 	nuevaPropuesta := evaluarPropuesta(listaPropuesta)
 	//si cambio, entregara la nueva propuesta, si no, entregará la misma.
-	//Escribir en el log
+	//Escribir en el log ya que es una propuesta aceptada
+	//[1,2,3]
+	textoPropuesta := propuestaToString(stringToList(nuevaPropuesta), "Nombre_Libro")
+	file, err := os.OpenFile("./log.txt", os.O_WRONLY|os.O_APPEND, 0644)
+	if err != nil {
+		log.Fatalf("No se puede abrir el archivo log: %s", err)
+	}
+	defer file.Close()
+	//escribimos en el archivo
+	file.WriteString(textoPropuesta)
 
 	return &propu.Respuesta_Propuesta{Respuesta: nuevaPropuesta}, nil
 }
 
+func propuestaToString(propuestaMaquinas []int32, nombreLibro string) string {
+	cantidadChunks := len(propuestaMaquinas)
+	cChunksStr := strconv.Itoa(cantidadChunks)
+	propuesta := nombreLibro + " " + cChunksStr + "\n"
+
+	for i := 0; i < cantidadChunks; i++ {
+		chunk := strconv.Itoa(i)
+		maquina := propuestaMaquinas[i]
+		maquinaStr := strconv.Itoa(int(maquina))
+		propuesta += nombreLibro + "-" + chunk + " dist" + maquinaStr + "\n"
+	}
+	return propuesta
+}
 func stringToList(texto string) []int {
 	lista := strings.Split(texto, ",")
 	listaInt := make([]int, len(lista)-1)
