@@ -67,7 +67,9 @@ func evaluarPropuesta(propuesta string) {
 		defer conn.Close()
 
 		c := uploader.NewUploaderClient(conn)
-		conexion, error := c.EstadoMaquina(context.Background(), &comms.Request_Estado_M{})
+		conexion, error := c.EstadoMaquina(context.Background(), &uploader.Solicitud_EstadoMaquina{
+			EstadoMaquina: "1",
+		})
 
 		if error != nil {
 			log.Printf("dist" + numeroMaquina + ":6009, Maquina caida")
