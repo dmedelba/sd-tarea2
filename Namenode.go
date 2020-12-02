@@ -92,8 +92,7 @@ func evaluarPropuesta(propuesta string) string {
 			log.Printf("dist" + numeroMaquina + ":6000, Maquina caida")
 			propuestita, cant = borrarMaquina(propuestita, maquinitas[i])
 			total = cant + total
-		}
-		else{
+		} else {
 			log.Printf("Maquina funcionando")
 			log.Printf(conexion.EstadoMaquina)
 		}
