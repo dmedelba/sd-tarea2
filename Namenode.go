@@ -18,7 +18,13 @@ import (
 type server struct {
 }
 
+var ocupado bool = false
+
 func (s *server) EnviarPropuesta(ctx context.Context, in *propu.Propuesta_Generada) (*propu.Respuesta_Propuesta, error) {
+	for ocupado {
+		log.Printf("[Name node] Se está procesando otra solicitud en estos momentos. Esperar")
+	}
+	ocupado = true
 	listaPropuesta := in.ListaPropuesta
 	nombreLibro := in.NombreLibro
 	fmt.Printf("Propuesta recibida, a evaluar")
@@ -36,7 +42,7 @@ func (s *server) EnviarPropuesta(ctx context.Context, in *propu.Propuesta_Genera
 	defer file.Close()
 	//escribimos en el archivo
 	file.WriteString(textoPropuesta)
-
+	ocupado = false
 	return &propu.Respuesta_Propuesta{Respuesta: nuevaPropuesta}, nil
 }
 

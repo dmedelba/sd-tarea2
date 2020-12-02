@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 	"math"
+	"math/rand"
 	"os"
 	"strconv"
 
@@ -13,10 +14,6 @@ import (
 
 	//"path/filepath"
 	"google.golang.org/grpc"
-)
-
-const (
-	puerto = "dist70:5000"
 )
 
 func subirLibro(conn *grpc.ClientConn, tipo string) {
@@ -138,11 +135,36 @@ func mostrarLibros() string {
 	return nombreLibroSeleccionado
 }
 
+func estado_maquina(maquina string) bool {
+	conn, err := grpc.Dial(maquina, grpc.WithInsecure())
+	if err != nil {
+		log.Fatalf("did not connect: %s", err)
+	}
+	defer conn.Close()
+	c := uploader.NewUploaderClient(conn)
+	conexion, error := c.EstadoMaquina(context.Background(), &uploader.Solicitud_EstadoMaquina{
+		EstadoMaquina: "1",
+	})
+	if error != nil {
+		return true
+	}
+	return false
+}
+
 //Establecemos conexión con logisitica dist70:6000
 func main() {
 	//crear conexion
 	var conn *grpc.ClientConn
-	conn, err := grpc.Dial(puerto, grpc.WithInsecure())
+	//elegimos un datanode al azar para que sea el que distribuye y genera la propuesta
+	puerto := rand.Intn(3) + 70
+	maquina := "dist" + strconv.Itoa(puerto) + ":5000"
+	//verificamos que el datanode elegido no esté caido.
+	for estado_maquina(maquina) {
+		log.Printf("El datanode que seleccionó como distribuidor está caido o está ocupado.")
+		puerto := rand.Intn(3) + 70
+		maquina := "dist" + strconv.Itoa(puerto) + ":5000"
+	}
+	conn, err := grpc.Dial(maquina, grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("No se pudo establecer la conexión. ERROR: %v", err)
 	}
