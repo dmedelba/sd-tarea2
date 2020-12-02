@@ -77,7 +77,7 @@ func evaluarPropuesta(propuesta string) string {
 		conn, err := grpc.Dial("dist"+numeroMaquina+":6009", grpc.WithInsecure())
 
 		if err != nil {
-			log.Fatalf("Error" + err)
+			log.Fatalf("Error de envio de mensaje %s", err)
 		}
 
 		defer conn.Close()
