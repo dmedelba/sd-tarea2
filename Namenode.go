@@ -62,7 +62,7 @@ func evaluarPropuesta(propuesta string) {
 
 	for i := 0; i < len(maquinitas); i++ {
 		numeroMaquina := strconv.Itoa(maquinitas[i])
-		conn, _ := grpc.Dial("dist"+numeroMaquina+":6009", grpc.WithInsecure())
+		conn, _ = grpc.Dial("dist"+numeroMaquina+":6009", grpc.WithInsecure())
 		defer conn.Close()
 
 		c := uploader.NewUploaderClient(conn)
@@ -71,6 +71,7 @@ func evaluarPropuesta(propuesta string) {
 		})
 
 		if error != nil {
+			log.Printf(conexion.EstadoMaquina)
 			log.Printf("dist" + numeroMaquina + ":6009, Maquina caida")
 			propuestita, cant = borrarMaquina(propuestita, maquinitas[i])
 			total = cant + total
