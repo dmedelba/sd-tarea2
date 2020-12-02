@@ -81,10 +81,6 @@ func enviarPropuesta(propuesta string, tipoExclusion string, conn *grpc.ClientCo
 	}
 }
 
-func (s *Server) EstadoMaquina(ctx context.Context, respuesta *uploader.Solicitud_EstadoMaquina) (*comms.Respuesa_EstadoMaquina, error) {
-	return &uploader.Respuesa_EstadoMaquina{EstadoMaquina: "1"}, nil
-}
-
 /*
 	else{
 
@@ -155,6 +151,9 @@ func (s *server) SubirLibro(ctx context.Context, in *uploader.Solicitud_SubirLib
 	return &uploader.Respuesta_SubirLibro{Respuesta: int32(0)}, nil
 }
 
+func (s *server) EstadoMaquina(ctx context.Context, respuesta *uploader.Solicitud_EstadoMaquina) (*uploader.Respuesa_EstadoMaquina, error) {
+	return &uploader.Respuesa_EstadoMaquina{EstadoMaquina: "1"}, nil
+}
 func main() {
 	log.Printf("[Datanode]")
 	lis, err := net.Listen("tcp", ":6000")
