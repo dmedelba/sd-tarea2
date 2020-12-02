@@ -56,7 +56,7 @@ func borrarMaquina(propuesta []int, value int) ([]int, int) {
 			cant = cant + 1
 			copy(propuesta[i:], propuesta[i+1:])
 			propuesta[len(propuesta)-1] = 0
-			propuesta := propuesta[:len(propuesta)-1]
+			propuesta = propuesta[:len(propuesta)-1]
 		}
 	}
 	return propuesta, cant
