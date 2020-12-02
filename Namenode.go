@@ -7,7 +7,7 @@ import (
 	"net"
 	"strconv"
 	"strings"
-
+	"math/rand"
 	"./propu"
 	"./uploader"
 	"google.golang.org/grpc"
@@ -18,12 +18,20 @@ type server struct {
 
 func (s *server) EnviarPropuesta(ctx context.Context, in *propu.Propuesta_Generada) (*propu.Respuesta_Propuesta, error) {
 	listaPropuesta := in.ListaPropuesta
+	cantChunks := len(listaPropuesta)
 	fmt.Printf("Propuesta recibida, a evaluar")
 	fmt.Printf(listaPropuesta)
 	//evaluamos la propuesta, si hay una maquina que no funcione el namenode genera una nueva propuesta con las maquinas activas.
 	nuevaPropuesta := evaluarPropuesta(listaPropuesta)
 	//si cambio, entregara la nueva propuesta, si no, entregará la misma.
+	//Escribir en el log
 
+	//Funcionando = [70] = largo de la funcionando
+
+	funciona= [70,71]
+	for elem ==no funciona
+		elem[i] = rand(funciona)
+	
 	return &propu.Respuesta_Propuesta{Respuesta: nuevaPropuesta}, nil
 }
 
@@ -48,26 +56,30 @@ func ListToString(lista []int) string {
 	}
 	return propuestaString
 }
-func borrarMaquina(propuesta []int, value int) ([]int, int) {
-	var cant int
-	cant = 0
-	for i := 0; i < len(propuesta); i++ {
-		if value == propuesta[i] {
-			cant = cant + 1
-			copy(propuesta[i:], propuesta[i+1:])
-			propuesta[len(propuesta)-1] = 0
-			propuesta = propuesta[:len(propuesta)-1]
+func borrarMaquina(propuesta []int, value int) []int {
+	maquinas := []int{70, 71, 72}
+	//eliminar maquina que no esta funcionando de nuestra lista maquinas
+	for i:=0; i<len(maquinas); i++{
+		if maquina[i]==value{
+			copy(maquinas[i:], maquinas[i+1:])
+			maquinas[len(maquinas)-1] = 0
+			maquinas = maquinas[:len(maquinas)-1]
 		}
 	}
-	return propuesta, cant
+	//reemplazar la maquina que esta caida con una que no, de manera random.
+	maquina_elegida= rand.Intn(len(maquinas))
+	for i := 0; i < len(propuesta); i++ {
+		if value == propuesta[i] {
+			propuesta[i] = maquinas[maquina_elegida]
+		}
+	}
+	return propuesta
 }
 
 func evaluarPropuesta(propuesta string) string {
 	//pasar propuesta a lista
 	propuestita := stringToList(propuesta)
 	maquinitas := []int{70, 71, 72}
-	var cant int
-	total := 0
 	//recorro la lista de maquinas para verificar nodos caidos
 	for i := 0; i < len(maquinitas); i++ {
 		numeroMaquina := strconv.Itoa(maquinitas[i])
@@ -90,8 +102,7 @@ func evaluarPropuesta(propuesta string) string {
 		if error != nil {
 			//log.Printf(conexion.EstadoMaquina)
 			log.Printf("dist" + numeroMaquina + ":6000, Maquina caida")
-			propuestita, cant = borrarMaquina(propuestita, maquinitas[i])
-			total = cant + total
+			propuestita = borrarMaquina(propuestita, maquinitas[i])
 		} else {
 			log.Printf("Maquina funcionando")
 			log.Printf(conexion.EstadoMaquina)
