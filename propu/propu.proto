@@ -8,6 +8,7 @@ service Propu {
 
 message Propuesta_Generada{
   string ListaPropuesta = 1;
+  string NombreLibro = 2;
 
 }
 

@@ -20,6 +20,7 @@ type server struct {
 
 func (s *server) EnviarPropuesta(ctx context.Context, in *propu.Propuesta_Generada) (*propu.Respuesta_Propuesta, error) {
 	listaPropuesta := in.ListaPropuesta
+	nombreLibro := in.NombreLibro
 	fmt.Printf("Propuesta recibida, a evaluar")
 	fmt.Printf(listaPropuesta)
 	//evaluamos la propuesta, si hay una maquina que no funcione el namenode genera una nueva propuesta con las maquinas activas.
