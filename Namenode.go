@@ -93,7 +93,10 @@ func evaluarPropuesta(propuesta string) string {
 			propuestita, cant = borrarMaquina(propuestita, maquinitas[i])
 			total = cant + total
 		}
-		log.Printf("XD")
+		else{
+			log.Printf("Maquina funcionando")
+			log.Printf(conexion.EstadoMaquina)
+		}
 	}
 	propuestitaString := ListToString(propuestita)
 	return propuestitaString
