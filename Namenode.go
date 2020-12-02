@@ -74,7 +74,12 @@ func evaluarPropuesta(propuesta string) string {
 
 	for i := 0; i < len(maquinitas); i++ {
 		numeroMaquina := strconv.Itoa(maquinitas[i])
-		conn, _ = grpc.Dial("dist"+numeroMaquina+":6009", grpc.WithInsecure())
+		conn, err = grpc.Dial("dist"+numeroMaquina+":6009", grpc.WithInsecure())
+
+		if err != nil {
+			log.Fatalf("Error" + err)
+		}
+
 		defer conn.Close()
 
 		c := uploader.NewUploaderClient(conn)
