@@ -28,8 +28,8 @@ func (s *server) EnviarPropuesta(ctx context.Context, in *propu.Propuesta_Genera
 	//si cambio, entregara la nueva propuesta, si no, entregará la misma.
 	//Escribir en el log ya que es una propuesta aceptada
 	//[1,2,3]
-	propuestaList := stringToList(nuevaPropuesta)
-	textoPropuesta := propuestaToString(propuestaList, "Nombre_Libro")
+
+	textoPropuesta := propuestaToString(stringToList(nuevaPropuesta), "Nombre_Libro")
 	file, err := os.OpenFile("./log.txt", os.O_WRONLY|os.O_APPEND, 0644)
 	if err != nil {
 		log.Fatalf("No se puede abrir el archivo log: %s", err)
@@ -41,7 +41,7 @@ func (s *server) EnviarPropuesta(ctx context.Context, in *propu.Propuesta_Genera
 	return &propu.Respuesta_Propuesta{Respuesta: nuevaPropuesta}, nil
 }
 
-func propuestaToString(propuestaMaquinas []int32, nombreLibro string) string {
+func propuestaToString(propuestaMaquinas []int, nombreLibro string) string {
 	cantidadChunks := len(propuestaMaquinas)
 	cChunksStr := strconv.Itoa(cantidadChunks)
 	propuesta := nombreLibro + " " + cChunksStr + "\n"
