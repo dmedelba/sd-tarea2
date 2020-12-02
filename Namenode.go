@@ -55,17 +55,17 @@ func borrarMaquina(propuesta []int, value int) []int {
 	maquinas := []int{70, 71, 72}
 	//eliminar maquina que no esta funcionando de nuestra lista maquinas
 	for i := 0; i < len(maquinas); i++ {
-		if maquina[i] == value {
+		if maquinas[i] == value {
 			copy(maquinas[i:], maquinas[i+1:])
 			maquinas[len(maquinas)-1] = 0
 			maquinas = maquinas[:len(maquinas)-1]
 		}
 	}
 	//reemplazar la maquina que esta caida con una que no, de manera random.
-	maquina_elegida = rand.Intn(len(maquinas))
+	maquinaElegida := rand.Intn(len(maquinas))
 	for i := 0; i < len(propuesta); i++ {
 		if value == propuesta[i] {
-			propuesta[i] = maquinas[maquina_elegida]
+			propuesta[i] = maquinas[maquinaElegida]
 		}
 	}
 	return propuesta
