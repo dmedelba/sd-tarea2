@@ -157,6 +157,101 @@ func (x *Respuesta_SubirLibro) GetRespuesta() int32 {
 	return 0
 }
 
+//solicitud para saber si la maquina esta caida o no
+type Solicitud_EstadoMaquina struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	EstadoMaquina string `protobuf:"bytes,1,opt,name=estado_maquina,json=estadoMaquina,proto3" json:"estado_maquina,omitempty"`
+}
+
+func (x *Solicitud_EstadoMaquina) Reset() {
+	*x = Solicitud_EstadoMaquina{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_uploader_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Solicitud_EstadoMaquina) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Solicitud_EstadoMaquina) ProtoMessage() {}
+
+func (x *Solicitud_EstadoMaquina) ProtoReflect() protoreflect.Message {
+	mi := &file_uploader_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Solicitud_EstadoMaquina.ProtoReflect.Descriptor instead.
+func (*Solicitud_EstadoMaquina) Descriptor() ([]byte, []int) {
+	return file_uploader_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *Solicitud_EstadoMaquina) GetEstadoMaquina() string {
+	if x != nil {
+		return x.EstadoMaquina
+	}
+	return ""
+}
+
+type Respuesa_EstadoMaquina struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	EstadoMaquina string `protobuf:"bytes,1,opt,name=estado_maquina,json=estadoMaquina,proto3" json:"estado_maquina,omitempty"`
+}
+
+func (x *Respuesa_EstadoMaquina) Reset() {
+	*x = Respuesa_EstadoMaquina{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_uploader_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Respuesa_EstadoMaquina) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Respuesa_EstadoMaquina) ProtoMessage() {}
+
+func (x *Respuesa_EstadoMaquina) ProtoReflect() protoreflect.Message {
+	mi := &file_uploader_proto_msgTypes[3]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Respuesa_EstadoMaquina.ProtoReflect.Descriptor instead.
+func (*Respuesa_EstadoMaquina) Descriptor() ([]byte, []int) {
+	return file_uploader_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *Respuesa_EstadoMaquina) GetEstadoMaquina() string {
+	if x != nil {
+		return x.EstadoMaquina
+	}
+	return ""
+}
+
 var File_uploader_proto protoreflect.FileDescriptor
 
 var file_uploader_proto_rawDesc = []byte{
@@ -175,14 +270,27 @@ var file_uploader_proto_rawDesc = []byte{
 	0x69, 0x6f, 0x6e, 0x4d, 0x75, 0x74, 0x75, 0x61, 0x22, 0x34, 0x0a, 0x14, 0x52, 0x65, 0x73, 0x70,
 	0x75, 0x65, 0x73, 0x74, 0x61, 0x5f, 0x53, 0x75, 0x62, 0x69, 0x72, 0x4c, 0x69, 0x62, 0x72, 0x6f,
 	0x12, 0x1c, 0x0a, 0x09, 0x72, 0x65, 0x73, 0x70, 0x75, 0x65, 0x73, 0x74, 0x61, 0x18, 0x01, 0x20,
-	0x01, 0x28, 0x05, 0x52, 0x09, 0x72, 0x65, 0x73, 0x70, 0x75, 0x65, 0x73, 0x74, 0x61, 0x32, 0x5a,
-	0x0a, 0x08, 0x55, 0x70, 0x6c, 0x6f, 0x61, 0x64, 0x65, 0x72, 0x12, 0x4e, 0x0a, 0x0a, 0x53, 0x75,
-	0x62, 0x69, 0x72, 0x4c, 0x69, 0x62, 0x72, 0x6f, 0x12, 0x1e, 0x2e, 0x75, 0x70, 0x6c, 0x6f, 0x61,
-	0x64, 0x65, 0x72, 0x2e, 0x53, 0x6f, 0x6c, 0x69, 0x63, 0x69, 0x74, 0x75, 0x64, 0x5f, 0x53, 0x75,
-	0x62, 0x69, 0x72, 0x4c, 0x69, 0x62, 0x72, 0x6f, 0x1a, 0x1e, 0x2e, 0x75, 0x70, 0x6c, 0x6f, 0x61,
-	0x64, 0x65, 0x72, 0x2e, 0x52, 0x65, 0x73, 0x70, 0x75, 0x65, 0x73, 0x74, 0x61, 0x5f, 0x53, 0x75,
-	0x62, 0x69, 0x72, 0x4c, 0x69, 0x62, 0x72, 0x6f, 0x22, 0x00, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74,
-	0x6f, 0x33,
+	0x01, 0x28, 0x05, 0x52, 0x09, 0x72, 0x65, 0x73, 0x70, 0x75, 0x65, 0x73, 0x74, 0x61, 0x22, 0x40,
+	0x0a, 0x17, 0x53, 0x6f, 0x6c, 0x69, 0x63, 0x69, 0x74, 0x75, 0x64, 0x5f, 0x45, 0x73, 0x74, 0x61,
+	0x64, 0x6f, 0x4d, 0x61, 0x71, 0x75, 0x69, 0x6e, 0x61, 0x12, 0x25, 0x0a, 0x0e, 0x65, 0x73, 0x74,
+	0x61, 0x64, 0x6f, 0x5f, 0x6d, 0x61, 0x71, 0x75, 0x69, 0x6e, 0x61, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x0d, 0x65, 0x73, 0x74, 0x61, 0x64, 0x6f, 0x4d, 0x61, 0x71, 0x75, 0x69, 0x6e, 0x61,
+	0x22, 0x3f, 0x0a, 0x16, 0x52, 0x65, 0x73, 0x70, 0x75, 0x65, 0x73, 0x61, 0x5f, 0x45, 0x73, 0x74,
+	0x61, 0x64, 0x6f, 0x4d, 0x61, 0x71, 0x75, 0x69, 0x6e, 0x61, 0x12, 0x25, 0x0a, 0x0e, 0x65, 0x73,
+	0x74, 0x61, 0x64, 0x6f, 0x5f, 0x6d, 0x61, 0x71, 0x75, 0x69, 0x6e, 0x61, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x0d, 0x65, 0x73, 0x74, 0x61, 0x64, 0x6f, 0x4d, 0x61, 0x71, 0x75, 0x69, 0x6e,
+	0x61, 0x32, 0xb2, 0x01, 0x0a, 0x08, 0x55, 0x70, 0x6c, 0x6f, 0x61, 0x64, 0x65, 0x72, 0x12, 0x4e,
+	0x0a, 0x0a, 0x53, 0x75, 0x62, 0x69, 0x72, 0x4c, 0x69, 0x62, 0x72, 0x6f, 0x12, 0x1e, 0x2e, 0x75,
+	0x70, 0x6c, 0x6f, 0x61, 0x64, 0x65, 0x72, 0x2e, 0x53, 0x6f, 0x6c, 0x69, 0x63, 0x69, 0x74, 0x75,
+	0x64, 0x5f, 0x53, 0x75, 0x62, 0x69, 0x72, 0x4c, 0x69, 0x62, 0x72, 0x6f, 0x1a, 0x1e, 0x2e, 0x75,
+	0x70, 0x6c, 0x6f, 0x61, 0x64, 0x65, 0x72, 0x2e, 0x52, 0x65, 0x73, 0x70, 0x75, 0x65, 0x73, 0x74,
+	0x61, 0x5f, 0x53, 0x75, 0x62, 0x69, 0x72, 0x4c, 0x69, 0x62, 0x72, 0x6f, 0x22, 0x00, 0x12, 0x56,
+	0x0a, 0x0d, 0x45, 0x73, 0x74, 0x61, 0x64, 0x6f, 0x4d, 0x61, 0x71, 0x75, 0x69, 0x6e, 0x61, 0x12,
+	0x21, 0x2e, 0x75, 0x70, 0x6c, 0x6f, 0x61, 0x64, 0x65, 0x72, 0x2e, 0x53, 0x6f, 0x6c, 0x69, 0x63,
+	0x69, 0x74, 0x75, 0x64, 0x5f, 0x45, 0x73, 0x74, 0x61, 0x64, 0x6f, 0x4d, 0x61, 0x71, 0x75, 0x69,
+	0x6e, 0x61, 0x1a, 0x20, 0x2e, 0x75, 0x70, 0x6c, 0x6f, 0x61, 0x64, 0x65, 0x72, 0x2e, 0x52, 0x65,
+	0x73, 0x70, 0x75, 0x65, 0x73, 0x61, 0x5f, 0x45, 0x73, 0x74, 0x61, 0x64, 0x6f, 0x4d, 0x61, 0x71,
+	0x75, 0x69, 0x6e, 0x61, 0x22, 0x00, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -197,16 +305,20 @@ func file_uploader_proto_rawDescGZIP() []byte {
 	return file_uploader_proto_rawDescData
 }
 
-var file_uploader_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_uploader_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_uploader_proto_goTypes = []interface{}{
-	(*Solicitud_SubirLibro)(nil), // 0: uploader.Solicitud_SubirLibro
-	(*Respuesta_SubirLibro)(nil), // 1: uploader.Respuesta_SubirLibro
+	(*Solicitud_SubirLibro)(nil),    // 0: uploader.Solicitud_SubirLibro
+	(*Respuesta_SubirLibro)(nil),    // 1: uploader.Respuesta_SubirLibro
+	(*Solicitud_EstadoMaquina)(nil), // 2: uploader.Solicitud_EstadoMaquina
+	(*Respuesa_EstadoMaquina)(nil),  // 3: uploader.Respuesa_EstadoMaquina
 }
 var file_uploader_proto_depIdxs = []int32{
 	0, // 0: uploader.Uploader.SubirLibro:input_type -> uploader.Solicitud_SubirLibro
-	1, // 1: uploader.Uploader.SubirLibro:output_type -> uploader.Respuesta_SubirLibro
-	1, // [1:2] is the sub-list for method output_type
-	0, // [0:1] is the sub-list for method input_type
+	2, // 1: uploader.Uploader.EstadoMaquina:input_type -> uploader.Solicitud_EstadoMaquina
+	1, // 2: uploader.Uploader.SubirLibro:output_type -> uploader.Respuesta_SubirLibro
+	3, // 3: uploader.Uploader.EstadoMaquina:output_type -> uploader.Respuesa_EstadoMaquina
+	2, // [2:4] is the sub-list for method output_type
+	0, // [0:2] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -242,6 +354,30 @@ func file_uploader_proto_init() {
 				return nil
 			}
 		}
+		file_uploader_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Solicitud_EstadoMaquina); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_uploader_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Respuesa_EstadoMaquina); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -249,7 +385,7 @@ func file_uploader_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_uploader_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
@@ -276,6 +412,7 @@ const _ = grpc.SupportPackageIsVersion6
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type UploaderClient interface {
 	SubirLibro(ctx context.Context, in *Solicitud_SubirLibro, opts ...grpc.CallOption) (*Respuesta_SubirLibro, error)
+	EstadoMaquina(ctx context.Context, in *Solicitud_EstadoMaquina, opts ...grpc.CallOption) (*Respuesa_EstadoMaquina, error)
 }
 
 type uploaderClient struct {
@@ -295,9 +432,19 @@ func (c *uploaderClient) SubirLibro(ctx context.Context, in *Solicitud_SubirLibr
 	return out, nil
 }
 
+func (c *uploaderClient) EstadoMaquina(ctx context.Context, in *Solicitud_EstadoMaquina, opts ...grpc.CallOption) (*Respuesa_EstadoMaquina, error) {
+	out := new(Respuesa_EstadoMaquina)
+	err := c.cc.Invoke(ctx, "/uploader.Uploader/EstadoMaquina", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UploaderServer is the server API for Uploader service.
 type UploaderServer interface {
 	SubirLibro(context.Context, *Solicitud_SubirLibro) (*Respuesta_SubirLibro, error)
+	EstadoMaquina(context.Context, *Solicitud_EstadoMaquina) (*Respuesa_EstadoMaquina, error)
 }
 
 // UnimplementedUploaderServer can be embedded to have forward compatible implementations.
@@ -306,6 +453,9 @@ type UnimplementedUploaderServer struct {
 
 func (*UnimplementedUploaderServer) SubirLibro(context.Context, *Solicitud_SubirLibro) (*Respuesta_SubirLibro, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SubirLibro not implemented")
+}
+func (*UnimplementedUploaderServer) EstadoMaquina(context.Context, *Solicitud_EstadoMaquina) (*Respuesa_EstadoMaquina, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method EstadoMaquina not implemented")
 }
 
 func RegisterUploaderServer(s *grpc.Server, srv UploaderServer) {
@@ -330,6 +480,24 @@ func _Uploader_SubirLibro_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Uploader_EstadoMaquina_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Solicitud_EstadoMaquina)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UploaderServer).EstadoMaquina(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/uploader.Uploader/EstadoMaquina",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UploaderServer).EstadoMaquina(ctx, req.(*Solicitud_EstadoMaquina))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _Uploader_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "uploader.Uploader",
 	HandlerType: (*UploaderServer)(nil),
@@ -337,6 +505,10 @@ var _Uploader_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SubirLibro",
 			Handler:    _Uploader_SubirLibro_Handler,
+		},
+		{
+			MethodName: "EstadoMaquina",
+			Handler:    _Uploader_EstadoMaquina_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
