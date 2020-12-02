@@ -142,7 +142,7 @@ func estado_maquina(maquina string) bool {
 	}
 	defer conn.Close()
 	c := uploader.NewUploaderClient(conn)
-	conexion, error := c.EstadoMaquina(context.Background(), &uploader.Solicitud_EstadoMaquina{
+	_, error := c.EstadoMaquina(context.Background(), &uploader.Solicitud_EstadoMaquina{
 		EstadoMaquina: "1",
 	})
 	if error != nil {
@@ -162,7 +162,7 @@ func main() {
 	for estado_maquina(maquina) {
 		log.Printf("El datanode que seleccionó como distribuidor está caido o está ocupado.")
 		puerto := rand.Intn(3) + 70
-		maquina := "dist" + strconv.Itoa(puerto) + ":5000"
+		maquina = "dist" + strconv.Itoa(puerto) + ":5000"
 	}
 	conn, err := grpc.Dial(maquina, grpc.WithInsecure())
 	if err != nil {
