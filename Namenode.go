@@ -19,12 +19,12 @@ type server struct {
 func (s *server) EnviarPropuesta(ctx context.Context, in *propu.Propuesta_Generada) (*propu.Respuesta_Propuesta, error) {
 	listaPropuesta := in.ListaPropuesta
 	fmt.Printf("Propuesta recibida, a evaluar")
-
+	fmt.Printf(listaPropuesta)
 	//evaluamos la propuesta, si hay una maquina que no funcione el namenode genera una nueva propuesta con las maquinas activas.
-	nuevaPropuesta := evaluarPropuesta(listaPropuesta)
+	//nuevaPropuesta := evaluarPropuesta(listaPropuesta)
 	//si cambio, entregara la nueva propuesta, si no, entregará la misma.
 
-	return &propu.Respuesta_Propuesta{Respuesta: "Propuesta que funciona: " + nuevaPropuesta}, nil
+	return &propu.Respuesta_Propuesta{Respuesta: "Propuesta que funciona: "}, nil
 }
 
 func stringToList(texto string) []int {
