@@ -19,12 +19,12 @@ type server struct {
 func (s *server) EnviarPropuesta(ctx context.Context, in *propu.Propuesta_Generada) (*propu.Respuesta_Propuesta, error) {
 	listaPropuesta := in.ListaPropuesta
 	fmt.Printf("Propuesta recibida, a evaluar")
-	//convertimos la propuesta a una lista de enteros
-	propuestaInt := stringToList(listaPropuesta)
+
 	//evaluamos la propuesta, si hay una maquina que no funcione el namenode genera una nueva propuesta con las maquinas activas.
-	nuevaPropuesta := evaluarPropuesta(propuestaInt)
-	nuevaPropuestaStr := ListToString(nuevaPropuesta)
-	return &propu.Respuesta_Propuesta{Respuesta: "Propuesta que funciona: " + nuevaPropuestaStr}, nil
+	nuevaPropuesta := evaluarPropuesta(listaPropuesta)
+	//si cambio, entregara la nueva propuesta, si no, entregará la misma.
+
+	return &propu.Respuesta_Propuesta{Respuesta: "Propuesta que funciona: " + nuevaPropuesta}, nil
 }
 
 func stringToList(texto string) []int {
@@ -62,7 +62,7 @@ func borrarMaquina(propuesta []int, value int) ([]int, int) {
 	return propuesta, cant
 }
 
-func evaluarPropuesta(propuesta string) []int {
+func evaluarPropuesta(propuesta string) string {
 	//pasar propuesta a lista
 	propuestita := stringToList(propuesta)
 	maquinitas := []int{70, 71, 72}
@@ -89,7 +89,8 @@ func evaluarPropuesta(propuesta string) []int {
 			total = cant + total
 		}
 	}
-	return propuestita
+	propuestitaString := ListToString(propuestita)
+	return propuestitaString
 	//verificar maquinas caidas
 }
 
