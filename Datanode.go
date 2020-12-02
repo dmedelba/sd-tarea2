@@ -42,7 +42,7 @@ func stringToList(texto string) []int {
 	}
 	return listaInt
 }
-func crearPropuestaInicial(nombreLibro string, cantidadChunks int) []int {
+func crearPropuestaInicial(cantidadChunks int) []int {
 	//creamos la propuesta inicial simple
 	propuestaMaquinas := make([]int, cantidadChunks)
 	var indice = 0
@@ -59,7 +59,7 @@ func crearPropuestaInicial(nombreLibro string, cantidadChunks int) []int {
 	}
 	return propuestaMaquinas
 }
-func enviarPropuesta(propuesta string, tipoExclusion string, conn *grpc.ClientConn) {
+func enviarPropuesta(propuesta string, tipoExclusion string, conn *grpc.ClientConn, NombreLibro string) {
 	//enviar propuesta
 	if tipoExclusion == "1" {
 		//es centralizada, preguntar al name node
@@ -69,6 +69,7 @@ func enviarPropuesta(propuesta string, tipoExclusion string, conn *grpc.ClientCo
 		c := propu.NewPropuClient(conn)
 		respuestita, err := c.EnviarPropuesta(context.Background(), &propu.Propuesta_Generada{
 			ListaPropuesta: propuesta,
+			NombreLibro: NombreLibro
 		})
 
 		if err != nil {
@@ -121,7 +122,7 @@ func (s *server) SubirLibro(ctx context.Context, in *uploader.Solicitud_SubirLib
 	if int(in.Id) == int(in.Cantidad)-1 {
 		fmt.Printf("Se crearon todos los chunks")
 		//a la funcion pasar el tipo de exlusión mutua
-		propuestaInicial := crearPropuestaInicial(in.NombreLibro, int(in.Cantidad))
+		propuestaInicial := crearPropuestaInicial(int(in.Cantidad))
 		propuestaInicialString := ListToString(propuestaInicial)
 		//conexion
 		var conn *grpc.ClientConn
@@ -130,7 +131,7 @@ func (s *server) SubirLibro(ctx context.Context, in *uploader.Solicitud_SubirLib
 			log.Fatalf("Error al conectarse con la maquina 69 [Name node]. %s", err)
 		}
 		defer conn.Close()
-		enviarPropuesta(propuestaInicialString, in.TipoExclusionMutua, conn)
+		enviarPropuesta(propuestaInicialString, in.TipoExclusionMutua, conn, in.NombreLibro)
 
 		log.Printf("Propuesta enviada")
 		return &uploader.Respuesta_SubirLibro{Respuesta: int32(0)}, nil
