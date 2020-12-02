@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"./propu"
+	"./uploader"
 	"google.golang.org/grpc"
 )
 
@@ -44,6 +45,7 @@ func borrarMaquina(propuesta []int, value int) ([]int, int) {
 			copy(propuesta[i:], propuesta[i+1:])
 			propuesta[len(propuesta)-1] = 0
 			intSlice := propuesta[:len(propuesta)-1]
+			fmt.Printf(intSlice)
 		}
 	}
 	return propuesta, cant
@@ -61,14 +63,17 @@ func evaluarPropuesta(propuesta string) {
 
 	for i := 0; i < len(maquinitas); i++ {
 		numeroMaquina := strconv.Itoa(maquinitas[i])
-		conn, err := grpc.Dial("dist"+numeroMaquina+":6009", grpc.WithInsecure())
-		if err != nil {
-			log.Printf("Maquina caida")
+		conn, _ := grpc.Dial("dist"+numeroMaquina+":6009", grpc.WithInsecure())
+		defer conn.Close()
+
+		c := uploader.NewUploaderClient(conn)
+		conexion, error := c.EstadoMaquina(context.Background(), &comms.Request_Estado_M{})
+
+		if error != nil {
+			log.Printf("dist" + numeroMaquina + ":6009, Maquina caida")
 			propuestita, cant = borrarMaquina(propuestita, maquinitas[i])
 			total = cant + total
-			continue
 		}
-		defer conn.Close()
 
 	}
 
