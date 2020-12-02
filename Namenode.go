@@ -66,8 +66,8 @@ func evaluarPropuesta(propuesta string) string {
 	//pasar propuesta a lista
 	propuestita := stringToList(propuesta)
 	maquinitas := []int{70, 71, 72}
-	//var cant int
-	//total := 0
+	var cant int
+	total := 0
 	//recorro la lista de maquinas para verificar nodos caidos
 	for i := 0; i < len(maquinitas); i++ {
 		numeroMaquina := strconv.Itoa(maquinitas[i])
