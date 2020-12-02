@@ -21,7 +21,7 @@ func (s *server) EnviarPropuesta(ctx context.Context, in *propu.Propuesta_Genera
 	fmt.Printf("Propuesta recibida, a evaluar")
 	fmt.Printf(listaPropuesta)
 	//evaluamos la propuesta, si hay una maquina que no funcione el namenode genera una nueva propuesta con las maquinas activas.
-	//nuevaPropuesta := evaluarPropuesta(listaPropuesta)
+	nuevaPropuesta := evaluarPropuesta(listaPropuesta)
 	//si cambio, entregara la nueva propuesta, si no, entregará la misma.
 
 	return &propu.Respuesta_Propuesta{Respuesta: "Propuesta que funciona: "}, nil
@@ -73,7 +73,7 @@ func evaluarPropuesta(propuesta string) string {
 	for i := 0; i < len(maquinitas); i++ {
 		numeroMaquina := strconv.Itoa(maquinitas[i])
 		var conn *grpc.ClientConn
-		conn, err := grpc.Dial("dist"+numeroMaquina+":6009", grpc.WithInsecure())
+		conn, err := grpc.Dial("dist"+numeroMaquina+":6000", grpc.WithInsecure())
 
 		if err != nil {
 			log.Fatalf("Error de envio de mensaje %s", err)
@@ -88,7 +88,7 @@ func evaluarPropuesta(propuesta string) string {
 
 		if error != nil {
 			log.Printf(conexion.EstadoMaquina)
-			log.Printf("dist" + numeroMaquina + ":6009, Maquina caida")
+			log.Printf("dist" + numeroMaquina + ":6000, Maquina caida")
 			propuestita, cant = borrarMaquina(propuestita, maquinitas[i])
 			total = cant + total
 		}
