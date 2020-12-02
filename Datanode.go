@@ -81,8 +81,10 @@ func enviarPropuesta(propuesta string, tipoExclusion string, conn *grpc.ClientCo
 	}
 }
 
-func (s* Server) EstadoMaquina(ctx context.Context, respuesta *uploader.Solicitud_EstadoMaquina) (*comms.Respuesa_EstadoMaquina,error) {
-	return &uploader.Respuesa_EstadoMaquina{EstadoMaquina: "1"},nil
+func (s *Server) EstadoMaquina(ctx context.Context, respuesta *uploader.Solicitud_EstadoMaquina) (*comms.Respuesa_EstadoMaquina, error) {
+	return &uploader.Respuesa_EstadoMaquina{EstadoMaquina: "1"}, nil
+}
+
 /*
 	else{
 
