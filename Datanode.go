@@ -104,19 +104,7 @@ func generarNuevaPropuesta(propuestaMaquinas []int32) []int32 {
 	})
 	return propuestaMaquinas
 }
-func propuestaToString(propuestaMaquinas []int32, nombreLibro string) string {
-	cantidadChunks := len(propuestaMaquinas)
-	cChunksStr := strconv.Itoa(cantidadChunks)
-	propuesta := nombreLibro + " " + cChunksStr + "\n"
 
-	for i := 0; i < cantidadChunks; i++ {
-		chunk := strconv.Itoa(i)
-		maquina := propuestaMaquinas[i]
-		maquinaStr := strconv.Itoa(int(maquina))
-		propuesta += nombreLibro + "-" + chunk + " dist" + maquinaStr + "\n"
-	}
-	return propuesta
-}
 func (s *server) SubirLibro(ctx context.Context, in *uploader.Solicitud_SubirLibro) (*uploader.Respuesta_SubirLibro, error) {
 	log.Printf("recibi la wea")
 
