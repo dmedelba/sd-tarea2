@@ -69,7 +69,7 @@ func enviarPropuesta(propuesta string, tipoExclusion string, conn *grpc.ClientCo
 		c := propu.NewPropuClient(conn)
 		respuestita, err := c.EnviarPropuesta(context.Background(), &propu.Propuesta_Generada{
 			ListaPropuesta: propuesta,
-			NombreLibro: NombreLibro
+			NombreLibro:    NombreLibro,
 		})
 
 		if err != nil {
