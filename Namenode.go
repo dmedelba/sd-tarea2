@@ -39,7 +39,15 @@ func stringToList(texto string) []int {
 	}
 	return listaInt
 }
-
+func ListToString(lista []int) string {
+	var propuestaString = ""
+	for i := 0; i < len(lista); i++ {
+		maquina := lista[i]
+		maquinaStr := strconv.Itoa(maquina)
+		propuestaString += maquinaStr + ","
+	}
+	return propuestaString
+}
 func borrarMaquina(propuesta []int, value int) ([]int, int) {
 	var cant int
 	cant = 0
