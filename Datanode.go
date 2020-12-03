@@ -137,7 +137,7 @@ func distribuirChunks(distribucion string, nombreLibro string) {
 		contenidoChunk := leerChunk(nombreLibro, i)
 		maquinaStr := strconv.Itoa(listaChunks[i])
 		//crear la conexion con la maquina en cuestion
-		conn, err := grpc.Dial("dist"+maquinaStr+":5000", grpc.WithInsecure())
+		conn, err := grpc.Dial("dist"+maquinaStr+":5050", grpc.WithInsecure())
 		if err != nil {
 			log.Fatalf("No se pudo conectar al datanode para distribuir: %s", err)
 		}
@@ -179,7 +179,7 @@ func (s *server) SubirLibro(ctx context.Context, in *uploader.Solicitud_SubirLib
 		propuestaInicialString := ListToString(propuestaInicial)
 		//conexion
 		var conn *grpc.ClientConn
-		conn, err := grpc.Dial("dist69:5000", grpc.WithInsecure())
+		conn, err := grpc.Dial("dist69:5050", grpc.WithInsecure())
 		if err != nil {
 			log.Fatalf("Error al conectarse con la maquina 69 [Name node]. %s", err)
 		}
@@ -219,7 +219,7 @@ func (s *server) Distribuir(ctx context.Context, respuesta *uploader.Solicitud_D
 
 func main() {
 	log.Printf("[Datanode]")
-	lis, err := net.Listen("tcp", ":5000")
+	lis, err := net.Listen("tcp", ":5050")
 	if err != nil {
 		log.Fatalf("Error al tratar de escuchar: %v", err)
 	}

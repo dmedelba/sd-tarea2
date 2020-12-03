@@ -161,7 +161,7 @@ func estadoMaquina(maquina string) bool {
 //se solicita la ubicacion de los chunks al namenode
 func descargarLibro() {
 	var connect *grpc.ClientConn
-	puerto := "dist69:5000" //puerto del name node
+	puerto := "dist69:5050" //puerto del name node
 	connect, err := grpc.Dial(puerto, grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("No se puede conectar al name node: %s", err)
@@ -207,12 +207,12 @@ func main() {
 	var conn *grpc.ClientConn
 	//elegimos un datanode al azar para que sea el que distribuye y genera la propuesta
 	puerto := rand.Intn(3) + 70
-	maquina := "dist" + strconv.Itoa(puerto) + ":5000"
+	maquina := "dist" + strconv.Itoa(puerto) + ":5050"
 	//verificamos que el datanode elegido no esté caido.
 	for estadoMaquina(maquina) {
 		log.Printf("El datanode que seleccionó como distribuidor está caido o está ocupado.")
 		puerto := rand.Intn(3) + 70
-		maquina = "dist" + strconv.Itoa(puerto) + ":5000"
+		maquina = "dist" + strconv.Itoa(puerto) + ":5050"
 	}
 	conn, err := grpc.Dial(maquina, grpc.WithInsecure())
 	if err != nil {

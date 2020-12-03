@@ -161,7 +161,7 @@ func evaluarPropuesta(propuesta string) string {
 		log.Printf(numeroMaquina)
 
 		var conn *grpc.ClientConn
-		conn, err := grpc.Dial("dist"+numeroMaquina+":5000", grpc.WithInsecure())
+		conn, err := grpc.Dial("dist"+numeroMaquina+":5050", grpc.WithInsecure())
 
 		if err != nil {
 			log.Fatalf("Error de envio de mensaje %s", err)
@@ -176,7 +176,7 @@ func evaluarPropuesta(propuesta string) string {
 
 		if error != nil {
 			//log.Printf(conexion.EstadoMaquina)
-			log.Printf("dist" + numeroMaquina + ":5000, Maquina caida")
+			log.Printf("dist" + numeroMaquina + ":5050, Maquina caida")
 			propuestita = borrarMaquina(propuestita, maquinitas[i])
 		} else {
 			log.Printf("Maquina funcionando")
@@ -199,7 +199,7 @@ func isInt(s string) bool {
 }
 func main() {
 	log.Printf("[Namenode]")
-	lis, err := net.Listen("tcp", ":5000")
+	lis, err := net.Listen("tcp", ":5050")
 	if err != nil {
 		log.Fatalf("Error al tratar de escuchar: %v", err)
 	}
