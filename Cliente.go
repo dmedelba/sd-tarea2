@@ -11,6 +11,7 @@ import (
 	"strconv"
 	"strings"
 
+	//"time"
 	"./propu"
 	"./uploader"
 	"google.golang.org/grpc"
@@ -22,7 +23,7 @@ func subirLibro(conn *grpc.ClientConn, tipo string) {
 	//conexion con el datanode
 	nombreLibroSeleccionado := mostrarLibros() //se muestran los libros y se selecciona el libro a subir
 	cantidadChunks := generarChunks(nombreLibroSeleccionado)
-
+	//start := time.Now()
 	c := uploader.NewUploaderClient(conn)
 	for i := 0; i < cantidadChunks; i++ {
 		contenidoChunk := abrirChunk(nombreLibroSeleccionado, i)
@@ -226,8 +227,7 @@ func main() {
 		log.Printf("[Cliente] Ingrese opición a realizar:")
 		log.Printf("1. Subir libro")
 		log.Printf("2. Descargar libro")
-		log.Printf("3. Ver biblioteca (libros descargados)")
-		log.Printf("4. Finalizar")
+		log.Printf("3. Finalizar")
 		fmt.Scanln(&seleccion)
 
 		var tipoSubida int
@@ -250,12 +250,10 @@ func main() {
 			//descargar libro, conectarse al name node (69)
 			descargarLibro()
 		case 3:
-			//ver biblioteca
-
-		case 4:
 			//finalizar
 			log.Printf("Sesión finalizada. Muchas gracias!")
 			flag = false
+
 		}
 	}
 }

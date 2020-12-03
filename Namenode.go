@@ -20,6 +20,7 @@ import (
 type server struct {
 }
 
+//candado para regular el acceso al namenode.
 var ocupado bool = false
 
 //recibimos la propuesta , aceptamos o rechazamos y respondemos con la nueva propuesta, puede ser la misma.
@@ -88,6 +89,7 @@ func (s *server) VerUbicaciones(ctx context.Context, in *propu.Solicitud_Ubicaci
 	return &propu.Respuesta_Ubicaciones{Ubicaciones: listadoMaquinas}, nil
 }
 
+//transformamos la propuest apara escribirla en el lOG.txt
 func propuestaToString(propuestaMaquinas []int, nombreLibro string) string {
 	cantidadChunks := len(propuestaMaquinas)
 	cChunksStr := strconv.Itoa(cantidadChunks)
@@ -101,6 +103,8 @@ func propuestaToString(propuestaMaquinas []int, nombreLibro string) string {
 	}
 	return propuesta
 }
+
+//el string a la lista de propuesta
 func stringToList(texto string) []int {
 	lista := strings.Split(texto, ",")
 	listaInt := make([]int, len(lista)-1)
@@ -113,6 +117,8 @@ func stringToList(texto string) []int {
 	}
 	return listaInt
 }
+
+//transformamos la lista de propuesta a string para enviar por protobuffer
 func ListToString(lista []int) string {
 	var propuestaString = ""
 	for i := 0; i < len(lista); i++ {
@@ -122,6 +128,8 @@ func ListToString(lista []int) string {
 	}
 	return propuestaString
 }
+
+//eliminamos la maquina caida y reemplazamos por una que sirva en la propuesta.
 func borrarMaquina(propuesta []int, value int) []int {
 	maquinas := []int{70, 71, 72}
 	//eliminar maquina que no esta funcionando de nuestra lista maquinas
@@ -142,6 +150,7 @@ func borrarMaquina(propuesta []int, value int) []int {
 	return propuesta
 }
 
+//verificamos si la propuesta es aceptada o no. Maquinas caida o no.
 func evaluarPropuesta(propuesta string) string {
 	//pasar propuesta a lista
 	propuestita := stringToList(propuesta)
@@ -179,6 +188,7 @@ func evaluarPropuesta(propuesta string) string {
 	//verificar maquinas caidas
 }
 
+//String es un entero ? https://stackoverflow.com/questions/22593259/check-if-string-is-int
 func isInt(s string) bool {
 	for _, c := range s {
 		if !unicode.IsDigit(c) {

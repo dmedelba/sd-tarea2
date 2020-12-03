@@ -12,16 +12,15 @@ import (
 	"strings"
 	"time"
 
-	"./uploader"
-
 	"./propu"
-	//"golang.org/x/net/context"
+	"./uploader"
 	"google.golang.org/grpc"
 )
 
 type server struct {
 }
 
+//transformamos la lista de propuesta a string para enviar por protobuffer
 func ListToString(lista []int) string {
 	var propuestaString = ""
 	for i := 0; i < len(lista); i++ {
@@ -31,6 +30,8 @@ func ListToString(lista []int) string {
 	}
 	return propuestaString
 }
+
+//el string a la lista de propuesta
 func stringToList(texto string) []int {
 	lista := strings.Split(texto, ",")
 	listaInt := make([]int, len(lista)-1)
@@ -43,6 +44,8 @@ func stringToList(texto string) []int {
 	}
 	return listaInt
 }
+
+//se crea una propuesta inicial simple, asignando cantidades equitativas a cada maquina.
 func crearPropuestaInicial(cantidadChunks int) []int {
 	//creamos la propuesta inicial simple
 	propuestaMaquinas := make([]int, cantidadChunks)
@@ -60,6 +63,8 @@ func crearPropuestaInicial(cantidadChunks int) []int {
 	}
 	return propuestaMaquinas
 }
+
+//se envia la propuesta al namenode (centralizado) , tipoExclusion indica que tipo de exclusion hará
 func enviarPropuesta(propuesta string, tipoExclusion string, conn *grpc.ClientConn, NombreLibro string) string {
 	//enviar propuesta
 	var propuestaDistribucion string
@@ -108,6 +113,8 @@ func generarNuevaPropuesta(propuestaMaquinas []int32) []int32 {
 	})
 	return propuestaMaquinas
 }
+
+//leemos el chunk para ver su contenido y almacenar
 func leerChunk(nombreLibro string, indice int) []byte {
 	indiceStr := strconv.Itoa(indice)
 	file, err := os.Open("./libros_subidos/" + nombreLibro + "-" + indiceStr)
@@ -120,6 +127,8 @@ func leerChunk(nombreLibro string, indice int) []byte {
 	}
 	return content
 }
+
+//enviamos a los otros datanode los chunks , depende de la propuesta.
 func distribuirChunks(distribucion string, nombreLibro string) {
 	//recorrer la lista y enviar a los chunks correspondientes.
 	listaChunks := stringToList(distribucion)
