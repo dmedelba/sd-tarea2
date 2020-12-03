@@ -10,6 +10,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"unicode"
 
 	"./downloader"
 	"./propu"
@@ -178,6 +179,14 @@ func evaluarPropuesta(propuesta string) string {
 	//verificar maquinas caidas
 }
 
+func isInt(s string) bool {
+	for _, c := range s {
+		if !unicode.IsDigit(c) {
+			return false
+		}
+	}
+	return true
+}
 func main() {
 	log.Printf("[Namenode]")
 	lis, err := net.Listen("tcp", ":5000")
