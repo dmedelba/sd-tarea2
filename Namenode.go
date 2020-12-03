@@ -78,8 +78,8 @@ func (s *server) VerUbicaciones(ctx context.Context, in *propu.Solicitud_Ubicaci
 		//primeras lineas del archivo
 		if lineas[0] == nombreLibro {
 			cantChunks, _ := strconv.Atoi(lineas[1])
-
 			for i := 0; i < cantChunks; i++ {
+				scanner.Scan()
 				listadoMaquinas += scanner.Text() + ","
 			}
 			break
