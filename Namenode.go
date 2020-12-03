@@ -63,11 +63,11 @@ func (s *server) VerLibros(ctx context.Context, in *downloader.Solicitud_VerLibr
 			listadoLibros += lineas[0] + ","
 		}
 	}
-	return &downloader.Respuesta_VerLibros{librosDisponibles: listadoLibros}, nil
+	return &downloader.Respuesta_VerLibros{LibrosDisponibles: listadoLibros}, nil
 }
 
 //enviamos la ubicacion del libro
-func (s *server) VerUbicaciones(ctx context.Context, in *uploader.Solicitud_Ubicaciones) (*uploader.Respuesta_Ubicaciones, error) {
+func (s *server) VerUbicaciones(ctx context.Context, in *downloader.Solicitud_Ubicaciones) (*downloader.Respuesta_Ubicaciones, error) {
 	//enviar las ubicaciones, leer el archivo LOG.TXT y enviar
 	nombreLibro := in.nombreLibro
 	listadoMaquinas := ""
@@ -79,7 +79,7 @@ func (s *server) VerUbicaciones(ctx context.Context, in *uploader.Solicitud_Ubic
 		//primeras lineas del archivo
 		if lineas[0] == nombreLibro {
 			cantChunks := lineas[1]
-			for i := 0; i < cantChunks; i++ {
+			for i := 0; i < strconv.Atoi(cantChunks); i++ {
 				listadoMaquinas += scanner.Text() + ","
 			}
 			break
