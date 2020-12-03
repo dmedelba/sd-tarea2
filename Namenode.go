@@ -69,7 +69,7 @@ func (s *server) VerLibros(ctx context.Context, in *downloader.Solicitud_VerLibr
 //enviamos la ubicacion del libro
 func (s *server) VerUbicaciones(ctx context.Context, in *downloader.Solicitud_Ubicaciones) (*downloader.Respuesta_Ubicaciones, error) {
 	//enviar las ubicaciones, leer el archivo LOG.TXT y enviar
-	nombreLibro := in.nombreLibro
+	nombreLibro := in.NombreLibro
 	listadoMaquinas := ""
 	file, _ := os.Open("./log.txt")
 	defer file.Close()
@@ -78,8 +78,9 @@ func (s *server) VerUbicaciones(ctx context.Context, in *downloader.Solicitud_Ub
 		lineas := strings.Split(scanner.Text(), " ")
 		//primeras lineas del archivo
 		if lineas[0] == nombreLibro {
-			cantChunks := lineas[1]
-			for i := 0; i < strconv.Atoi(cantChunks); i++ {
+			cantChunks := strconv.Atoi(lineas[1])
+
+			for i := 0; i < cantChunks; i++ {
 				listadoMaquinas += scanner.Text() + ","
 			}
 			break
