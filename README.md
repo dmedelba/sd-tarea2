@@ -11,7 +11,8 @@ Se definen las siguientes maquinas:
 	 dist71--> DataNode
 	 dist72--> DataNode
 
-Para ejecutar los nodos correspondiente se debe correr en las maquinas indicadas 
+Para ejecutar los nodos correspondiente se debe correr en las maquinas indicadas:
+
 	 make namenode -> ejecutar en la dist69.
 	 make datanode -> ejecutar en dist70/71/72.
 	 make cliente -> Para ejecutar al cliente en cualquiera de las maquinas.
