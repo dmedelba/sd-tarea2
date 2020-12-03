@@ -78,7 +78,7 @@ func (s *server) VerUbicaciones(ctx context.Context, in *downloader.Solicitud_Ub
 		lineas := strings.Split(scanner.Text(), " ")
 		//primeras lineas del archivo
 		if lineas[0] == nombreLibro {
-			cantChunks := strconv.Atoi(lineas[1])
+			cantChunks, _ := strconv.Atoi(lineas[1])
 
 			for i := 0; i < cantChunks; i++ {
 				listadoMaquinas += scanner.Text() + ","
