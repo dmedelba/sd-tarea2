@@ -10,7 +10,6 @@ import (
 	"os"
 	"strconv"
 	"strings"
-	"time"
 
 	"./uploader"
 	"google.golang.org/grpc"
@@ -175,29 +174,28 @@ func descargarLibro() {
 	cantLibros := len(libros)
 	//libroSeleccionado : nombre del libro a descargar que selecciona el usuario
 	var seleccion int
-	if ( cantLibros!= 0){
+	if cantLibros != 0 {
 		log.Printf("Selecciona un libro a descargar: ")
-		for i:=0; i< cantLibros; i++{
-			log.Printf(strconv.Itoa(i+1)+". "+ libros[i])
+		for i := 0; i < cantLibros; i++ {
+			log.Printf(strconv.Itoa(i+1) + ". " + libros[i])
 		}
 		log.Printf("\n")
 		fmt.Scanln(&seleccion)
 		libroSeleccionado := libros[seleccion-1]
-	}else{
+	} else {
 		log.Printf("No existen libros disponibles para descargar")
 	}
 	//start := time.Now()
 	//Se solicita la ubicación al namenode de donde se encuentra el libro "seleccion"
 	responseUbicaciones, _ := c.VerUbicaciones(context.Background(), &downloader.Solicitud_Ubicaciones{
-		NombreLibro : libroSeleccionado})
-	
+		NombreLibro: libroSeleccionado})
+
 	log.Printf("UBICACIONES:")
 	log.Printf(responseUbicaciones.Ubicaciones)
 	//DESCARGAR lOS LIBROS. armarlos.
 	//request_chunks(ubicaciones.Ubicaciones)
 	//elapsed := time.Since(start)
 	//log.Printf("Download took %s", elapsed)
-	*/
 }
 
 //Establecemos conexión con logisitica dist70:6000
