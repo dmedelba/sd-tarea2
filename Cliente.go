@@ -11,6 +11,7 @@ import (
 	"strconv"
 	"strings"
 
+	"./downloader"
 	"./uploader"
 	"google.golang.org/grpc"
 )
