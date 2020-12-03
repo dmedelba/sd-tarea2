@@ -11,7 +11,7 @@ import (
 	"strconv"
 	"strings"
 
-	"./downloader"
+	"./propu"
 	"./uploader"
 	"google.golang.org/grpc"
 )
@@ -167,8 +167,8 @@ func descargarLibro() {
 	}
 	defer connect.Close()
 	//conectamos con namenode para solicitar los libros
-	c := downloader.NewDownloaderClient(connect)
-	respuesta, _ := c.VerLibros(context.Background(), &downloader.Solicitud_VerLibros{})
+	c := propu.NewPropuClient(connect)
+	respuesta, _ := c.VerLibros(context.Background(), &propu.Solicitud_VerLibros{})
 	librosDisponibles := respuesta.LibrosDisponibles
 	//libros disponibles string "nombrelibro1,nombrelibro2,nombrelibro3, ..."
 	libros := strings.Split(librosDisponibles, ",")
@@ -189,7 +189,7 @@ func descargarLibro() {
 	}
 	//start := time.Now()
 	//Se solicita la ubicación al namenode de donde se encuentra el libro "seleccion"
-	responseUbicaciones, _ := c.VerUbicaciones(context.Background(), &downloader.Solicitud_Ubicaciones{
+	responseUbicaciones, _ := c.VerUbicaciones(context.Background(), &propu.Solicitud_Ubicaciones{
 		NombreLibro: libroSeleccionado})
 
 	log.Printf("UBICACIONES:")

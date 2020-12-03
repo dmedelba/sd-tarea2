@@ -12,7 +12,6 @@ import (
 	"strings"
 	"unicode"
 
-	"./downloader"
 	"./propu"
 	"./uploader"
 	"google.golang.org/grpc"
@@ -51,7 +50,7 @@ func (s *server) EnviarPropuesta(ctx context.Context, in *propu.Propuesta_Genera
 }
 
 //respondemos los libros disponibles para que el cliente seleccione el libro a descargar
-func (s *server) VerLibros(ctx context.Context, in *downloader.Solicitud_VerLibros) (*downloader.Respuesta_VerLibros, error) {
+func (s *server) VerLibros(ctx context.Context, in *propu.Solicitud_VerLibros) (*propu.Respuesta_VerLibros, error) {
 	//leer el LOG.txt y enviar los nombres de los libros disponibles.
 	listadoLibros := ""
 	file, _ := os.Open("./log.txt")
@@ -63,11 +62,11 @@ func (s *server) VerLibros(ctx context.Context, in *downloader.Solicitud_VerLibr
 			listadoLibros += lineas[0] + ","
 		}
 	}
-	return &downloader.Respuesta_VerLibros{LibrosDisponibles: listadoLibros}, nil
+	return &propu.Respuesta_VerLibros{LibrosDisponibles: listadoLibros}, nil
 }
 
 //enviamos la ubicacion del libro
-func (s *server) VerUbicaciones(ctx context.Context, in *downloader.Solicitud_Ubicaciones) (*downloader.Respuesta_Ubicaciones, error) {
+func (s *server) VerUbicaciones(ctx context.Context, in *propu.Solicitud_Ubicaciones) (*propu.Respuesta_Ubicaciones, error) {
 	//enviar las ubicaciones, leer el archivo LOG.TXT y enviar
 	nombreLibro := in.NombreLibro
 	listadoMaquinas := ""
@@ -86,7 +85,7 @@ func (s *server) VerUbicaciones(ctx context.Context, in *downloader.Solicitud_Ub
 			break
 		}
 	}
-	return &downloader.Respuesta_Ubicaciones{Ubicaciones: listadoMaquinas}, nil
+	return &propu.Respuesta_Ubicaciones{Ubicaciones: listadoMaquinas}, nil
 }
 
 func propuestaToString(propuestaMaquinas []int, nombreLibro string) string {
