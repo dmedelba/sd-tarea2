@@ -175,6 +175,7 @@ func descargarLibro() {
 	cantLibros := len(libros)
 	//libroSeleccionado : nombre del libro a descargar que selecciona el usuario
 	var seleccion int
+	var libroSeleccionado string
 	if cantLibros != 0 {
 		log.Printf("Selecciona un libro a descargar: ")
 		for i := 0; i < cantLibros; i++ {
@@ -182,7 +183,7 @@ func descargarLibro() {
 		}
 		log.Printf("\n")
 		fmt.Scanln(&seleccion)
-		libroSeleccionado := libros[seleccion-1]
+		libroSeleccionado = libros[seleccion-1]
 	} else {
 		log.Printf("No existen libros disponibles para descargar")
 	}
