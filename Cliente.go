@@ -9,13 +9,14 @@ import (
 	"math/rand"
 	"os"
 	"strconv"
+	"strings"
+	"time"
 
 	"./uploader"
-
-	//"path/filepath"
 	"google.golang.org/grpc"
 )
 
+//funcion que manda los libros al datanode distribuidor
 func subirLibro(conn *grpc.ClientConn, tipo string) {
 	//buscamos libro, se selecciona y se descompone
 	//conexion con el datanode
@@ -37,6 +38,7 @@ func subirLibro(conn *grpc.ClientConn, tipo string) {
 
 }
 
+//leemos el contenido de los chunks
 func abrirChunk(nombreLibro string, indice int) []byte {
 	indiceStr := strconv.Itoa(indice)
 	file, err := os.Open("./chunks_cliente/" + nombreLibro + "-" + indiceStr)
@@ -50,6 +52,7 @@ func abrirChunk(nombreLibro string, indice int) []byte {
 	return content
 }
 
+//creamos los chunks,
 func generarChunks(nombreLibroSeleccionado string) int {
 	//funcion obtenida de https://www.socketloop.com/tutorials/golang-recombine-chunked-files-example
 	fileToBeChunked := "./libros/" + nombreLibroSeleccionado
@@ -95,6 +98,7 @@ func generarChunks(nombreLibroSeleccionado string) int {
 	return int(totalPartsNum)
 }
 
+//ver listado de libro en consola
 func mostrarLibros() string {
 	//presentamos al usuario los libros para que seleccione
 	var nombreLibroSeleccionado string
@@ -135,7 +139,8 @@ func mostrarLibros() string {
 	return nombreLibroSeleccionado
 }
 
-func estado_maquina(maquina string) bool {
+//verificamos el estado de la maquina para poder realizar la conexion , sleccionar el datanode distribuidor
+func estadoMaquina(maquina string) bool {
 	conn, err := grpc.Dial(maquina, grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("did not connect: %s", err)
@@ -151,6 +156,50 @@ func estado_maquina(maquina string) bool {
 	return false
 }
 
+//solicitamos la ubicacion del libro al name node y descargamos de los datanode correspondientes.
+//se solicita la ubicacion de los chunks al namenode
+func descargarLibro() {
+	var connect *grpc.ClientConn
+	puerto := "dist69:5000" //puerto del name node
+	connect, err := grpc.Dial(puerto, grpc.WithInsecure())
+	if err != nil {
+		log.Fatalf("No se puede conectar al name node: %s", err)
+	}
+	defer connect.Close()
+	//conectamos con namenode para solicitar los libros
+	c := downloader.NewDownloaderClient(connect)
+	respuesta, _ := c.VerLibros(context.Background(), &downloader.Solicitud_VerLibros{})
+	librosDisponibles := respuesta.LibrosDisponibles
+	//libros disponibles string "nombrelibro1,nombrelibro2,nombrelibro3, ..."
+	libros := strings.Split(librosDisponibles, ",")
+	cantLibros := len(libros)
+	//libroSeleccionado : nombre del libro a descargar que selecciona el usuario
+	var seleccion int
+	if ( cantLibros!= 0){
+		log.Printf("Selecciona un libro a descargar: ")
+		for i:=0; i< cantLibros; i++{
+			log.Printf(strconv.Itoa(i+1)+". "+ libros[i])
+		}
+		log.Printf("\n")
+		fmt.Scanln(&seleccion)
+		libroSeleccionado := libros[seleccion-1]
+	}else{
+		log.Printf("No existen libros disponibles para descargar")
+	}
+	//start := time.Now()
+	//Se solicita la ubicación al namenode de donde se encuentra el libro "seleccion"
+	responseUbicaciones, _ := c.VerUbicaciones(context.Background(), &downloader.Solicitud_Ubicaciones{
+		NombreLibro : libroSeleccionado})
+	
+	log.Printf("UBICACIONES:")
+	log.Printf(responseUbicaciones.Ubicaciones)
+	//DESCARGAR lOS LIBROS. armarlos.
+	//request_chunks(ubicaciones.Ubicaciones)
+	//elapsed := time.Since(start)
+	//log.Printf("Download took %s", elapsed)
+	*/
+}
+
 //Establecemos conexión con logisitica dist70:6000
 func main() {
 	//crear conexion
@@ -159,7 +208,7 @@ func main() {
 	puerto := rand.Intn(3) + 70
 	maquina := "dist" + strconv.Itoa(puerto) + ":5000"
 	//verificamos que el datanode elegido no esté caido.
-	for estado_maquina(maquina) {
+	for estadoMaquina(maquina) {
 		log.Printf("El datanode que seleccionó como distribuidor está caido o está ocupado.")
 		puerto := rand.Intn(3) + 70
 		maquina = "dist" + strconv.Itoa(puerto) + ":5000"
@@ -199,6 +248,7 @@ func main() {
 			}
 		case 2:
 			//descargar libro, conectarse al name node (69)
+			descargarLibro()
 		case 3:
 			//ver biblioteca
 

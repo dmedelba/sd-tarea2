@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"context"
 	"fmt"
 	"log"
@@ -10,6 +11,7 @@ import (
 	"strconv"
 	"strings"
 
+	"./downloader"
 	"./propu"
 	"./uploader"
 	"google.golang.org/grpc"
@@ -20,6 +22,7 @@ type server struct {
 
 var ocupado bool = false
 
+//recibimos la propuesta , aceptamos o rechazamos y respondemos con la nueva propuesta, puede ser la misma.
 func (s *server) EnviarPropuesta(ctx context.Context, in *propu.Propuesta_Generada) (*propu.Respuesta_Propuesta, error) {
 	for ocupado {
 		log.Printf("[Name node] Se está procesando otra solicitud en estos momentos. Esperar")
@@ -44,6 +47,44 @@ func (s *server) EnviarPropuesta(ctx context.Context, in *propu.Propuesta_Genera
 	file.WriteString(textoPropuesta)
 	ocupado = false
 	return &propu.Respuesta_Propuesta{Respuesta: nuevaPropuesta}, nil
+}
+
+//respondemos los libros disponibles para que el cliente seleccione el libro a descargar
+func (s *server) VerLibros(ctx context.Context, in *downloader.Solicitud_VerLibros) (*downloader.Respuesta_VerLibros, error) {
+	//leer el LOG.txt y enviar los nombres de los libros disponibles.
+	listadoLibros := ""
+	file, _ := os.Open("./log.txt")
+	defer file.Close()
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		lineas := strings.Split(scanner.Text(), " ")
+		if isInt(lineas[1]) {
+			listadoLibros += lineas[0] + ","
+		}
+	}
+	return &downloader.Respuesta_VerLibros{librosDisponibles: listadoLibros}, nil
+}
+
+//enviamos la ubicacion del libro
+func (s *server) VerUbicaciones(ctx context.Context, in *uploader.Solicitud_Ubicaciones) (*uploader.Respuesta_Ubicaciones, error) {
+	//enviar las ubicaciones, leer el archivo LOG.TXT y enviar
+	nombreLibro := in.nombreLibro
+	listadoMaquinas := ""
+	file, _ := os.Open("./log.txt")
+	defer file.Close()
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		lineas := strings.Split(scanner.Text(), " ")
+		//primeras lineas del archivo
+		if lineas[0] == nombreLibro {
+			cantChunks := lineas[1]
+			for i := 0; i < cantChunks; i++ {
+				listadoMaquinas += scanner.Text() + ","
+			}
+			break
+		}
+	}
+	return &downloader.Respuesta_Ubicaciones{Ubicaciones: listadoMaquinas}, nil
 }
 
 func propuestaToString(propuestaMaquinas []int, nombreLibro string) string {

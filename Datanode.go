@@ -148,7 +148,7 @@ func distribuirChunks(distribucion string, nombreLibro string) {
 
 //recibo los libros desde el cliente, los almaceno, genero propuesta y envio segun tipo de exclusión.
 func (s *server) SubirLibro(ctx context.Context, in *uploader.Solicitud_SubirLibro) (*uploader.Respuesta_SubirLibro, error) {
-	log.Printf("recibi la wea y que maquina soy, pasandolo por el proto.")
+	log.Printf("[Datanode] Chunks recibidos por parte del cliente")
 
 	//Recibimos los chunks desde el cliente
 	//creo la carpeta para guardar chunks del libro
